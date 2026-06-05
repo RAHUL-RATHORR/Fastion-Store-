@@ -22,7 +22,6 @@ import { WhyGilzod } from "@/components/sections/WhyGilzod";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { PressStrip } from "@/components/sections/PressStrip";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
-import { StoreLocator } from "@/components/sections/StoreLocator";
 import { Newsletter } from "@/components/sections/Newsletter";
 
 export default function Home() {
@@ -53,7 +52,6 @@ export default function Home() {
           <ReviewsSection />
           <PressStrip />
           <InstagramFeed />
-          <StoreLocator />
           <Newsletter />
         </main>
       </PageTransition>

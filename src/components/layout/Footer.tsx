@@ -13,23 +13,25 @@ const columns = [
 export function Footer() {
   return (
     <footer className="bg-[#050505] border-t border-[rgba(192,192,192,0.06)] pb-[env(safe-area-inset-bottom)]">
-      <Container className="py-12 sm:py-16 md:py-20">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 sm:gap-10 md:gap-12">
+      <Container className="py-6 sm:py-8 md:py-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 md:gap-8">
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <Link href="#home" className="flex items-center gap-3 mb-4 sm:mb-6 min-h-[44px]">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10">
+            <Link href="#home" className="flex items-center gap-2.5 mb-3 min-h-[36px]">
+              <div className="relative shrink-0 w-9 h-9 sm:w-10 sm:h-10">
                 <Image
-                  src="/logo.png"
+                  src="/logo.png?v=3"
                   alt="GILZOD"
                   fill
+                  unoptimized
+                  sizes="48px"
                   className="object-contain"
                 />
               </div>
-              <span className="font-[family-name:var(--font-playfair)] text-base sm:text-lg tracking-[0.15em] text-white">
+              <span className="font-[family-name:var(--font-playfair)] text-sm sm:text-base leading-none tracking-[0.15em] text-white">
                 GILZOD
               </span>
             </Link>
-            <p className="text-[#a1a1aa] text-sm leading-relaxed max-w-xs">
+            <p className="text-[#a1a1aa] text-xs leading-relaxed max-w-xs">
               Premium menswear for ambitious men who refuse ordinary. Rule Beyond
               Limits.
             </p>
@@ -37,15 +39,15 @@ export function Footer() {
 
           {columns.map((column) => (
             <div key={column.title}>
-              <h4 className="text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white mb-4 sm:mb-5">
+              <h4 className="text-[10px] uppercase tracking-[0.15em] text-white mb-2.5">
                 {column.title}
               </h4>
-              <ul className="space-y-2.5 sm:space-y-3">
+              <ul className="space-y-1.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-[#a1a1aa] hover:text-[#c0c0c0] transition-colors duration-300 inline-flex min-h-[36px] items-center"
+                      className="text-xs sm:text-sm text-[#a1a1aa] hover:text-[#c0c0c0] transition-colors duration-300 inline-flex py-0.5"
                     >
                       {link.label}
                     </Link>
@@ -56,20 +58,20 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-10 sm:mt-12 md:mt-16 pt-6 sm:pt-8 border-t border-[rgba(192,192,192,0.06)] flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-          <p className="text-[#a1a1aa] text-[10px] sm:text-xs tracking-wider">
+        <div className="mt-6 sm:mt-8 pt-4 border-t border-[rgba(192,192,192,0.06)] flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+          <p className="text-[#a1a1aa] text-[10px] tracking-wider">
             © 2026 Gilzod. All Rights Reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
             <Link
               href="#"
-              className="text-[10px] sm:text-xs text-[#a1a1aa] hover:text-[#c0c0c0] transition-colors min-h-[44px] inline-flex items-center"
+              className="text-[10px] text-[#a1a1aa] hover:text-[#c0c0c0] transition-colors py-1"
             >
               Privacy Policy
             </Link>
             <Link
               href="#"
-              className="text-[10px] sm:text-xs text-[#a1a1aa] hover:text-[#c0c0c0] transition-colors min-h-[44px] inline-flex items-center"
+              className="text-[10px] text-[#a1a1aa] hover:text-[#c0c0c0] transition-colors py-1"
             >
               Terms of Service
             </Link>

@@ -10,7 +10,7 @@ export function BrandStory() {
       {/* Decorative element */}
       <div className="absolute top-0 right-0 w-1/2 h-full opacity-5 pointer-events-none">
         <Image
-          src="/logo.png"
+          src="/logo.png?v=3"
           alt=""
           fill
           className="object-contain object-right"
@@ -27,7 +27,7 @@ export function BrandStory() {
           className="flex justify-center mb-12 sm:mb-16 md:mb-20"
         >
           <div className="relative w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40">
-            <Image src="/logo.png" alt="GZ Monogram" fill className="object-contain drop-shadow-[0_0_30px_rgba(192,192,192,0.3)]" />
+            <Image src="/logo.png?v=3" alt="GZ Monogram" fill unoptimized className="object-contain drop-shadow-[0_0_30px_rgba(192,192,192,0.3)]" />
             <motion.div
               className="absolute inset-0 border border-[rgba(192,192,192,0.2)] rounded-full"
               animate={{ rotate: 360 }}

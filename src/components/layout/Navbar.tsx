@@ -50,17 +50,19 @@ export function Navbar() {
       >
         <Container className="!px-4 sm:!px-6 md:!px-8 lg:!px-10 xl:!px-12">
           <nav className="flex items-center justify-between gap-3">
-            <Link href="#home" className="flex items-center gap-2 sm:gap-3 group shrink-0 min-h-[44px]">
-              <div className="relative w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 transition-transform duration-300 group-hover:scale-105">
+            <Link href="#home" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 min-h-[44px]">
+              <div className="relative shrink-0 w-11 h-11 sm:w-12 sm:h-12 md:w-[52px] md:h-[52px] transition-transform duration-300 group-hover:scale-105">
                 <Image
-                  src="/logo.png"
+                  src="/logo.png?v=3"
                   alt="GILZOD Logo"
                   fill
+                  unoptimized
+                  sizes="52px"
                   className="object-contain"
                   priority
                 />
               </div>
-              <span className="font-[family-name:var(--font-playfair)] text-base sm:text-lg md:text-xl tracking-[0.12em] sm:tracking-[0.15em] text-[#f5f5f5] group-hover:text-white transition-colors duration-300 hidden min-[480px]:block drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
+              <span className="font-[family-name:var(--font-playfair)] text-base sm:text-lg md:text-xl leading-none tracking-[0.12em] sm:tracking-[0.15em] text-[#f5f5f5] group-hover:text-white transition-colors duration-300 hidden min-[480px]:block drop-shadow-[0_1px_8px_rgba(0,0,0,0.5)]">
                 GILZOD
               </span>
             </Link>
@@ -130,9 +132,14 @@ export function Navbar() {
               className="absolute right-0 top-0 bottom-0 w-full max-w-[min(100vw,24rem)] bg-[#0d0d0d] border-l border-[rgba(192,192,192,0.08)] p-6 sm:p-8 pt-[calc(1.5rem+env(safe-area-inset-top))] pb-[calc(1.5rem+env(safe-area-inset-bottom))]"
             >
               <div className="flex justify-between items-center mb-10 sm:mb-12">
-                <span className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl tracking-[0.15em] text-[#f5f5f5]">
-                  GILZOD
-                </span>
+                <Link href="#home" onClick={() => setMobileOpen(false)} className="flex items-center gap-3">
+                  <div className="relative shrink-0 w-11 h-11 sm:w-12 sm:h-12">
+                    <Image src="/logo.png?v=3" alt="GILZOD Logo" fill unoptimized sizes="48px" className="object-contain" />
+                  </div>
+                  <span className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl leading-none tracking-[0.15em] text-[#f5f5f5]">
+                    GILZOD
+                  </span>
+                </Link>
                 <button
                   aria-label="Close menu"
                   onClick={() => setMobileOpen(false)}
