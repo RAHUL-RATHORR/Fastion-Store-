@@ -1,0 +1,2 @@
+# Add your custom hero video here as hero.mp4
+# Then set heroVideo.src to "/videos/hero.mp4" in src/lib/data.ts
