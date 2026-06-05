@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { Package } from "lucide-react";
 import { getOrderById, type PlacedOrder } from "@/lib/order";
 import { Container } from "@/components/ui/Container";

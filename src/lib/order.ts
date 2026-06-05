@@ -108,11 +108,8 @@ export function getOrderTracking(order: PlacedOrder) {
   const placed = new Date(order.placedAt);
   const hoursSince = (Date.now() - placed.getTime()) / (1000 * 60 * 60);
 
-  let currentStatus: OrderStatus = "placed";
-  const steps: TrackingStep[] = trackingMilestones.map((milestone, index) => {
+  const steps: TrackingStep[] = trackingMilestones.map((milestone) => {
     const completed = hoursSince >= milestone.hours;
-    if (completed) currentStatus = milestone.status;
-
     const stepDate = new Date(placed.getTime() + milestone.hours * 60 * 60 * 1000);
 
     return {
@@ -135,6 +132,9 @@ export function getOrderTracking(order: PlacedOrder) {
   const progress = Math.round(
     (steps.filter((s) => s.completed).length / steps.length) * 100
   );
+
+  const lastCompleted = [...steps].reverse().find((s) => s.completed);
+  const currentStatus: OrderStatus = lastCompleted?.status ?? "placed";
 
   return { steps, currentStatus, progress, isDelivered: currentStatus === "delivered" };
 }
