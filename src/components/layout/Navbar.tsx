@@ -87,7 +87,8 @@ export function Navbar() {
 
             <div className="flex items-center gap-3 sm:gap-4 md:gap-6">
               <SearchButton className={cn("transition-colors duration-300 min-h-[44px] min-w-[44px] flex items-center justify-center", iconColor)} />
-              <button
+              <Link
+                href="/account"
                 aria-label="Account"
                 className={cn(
                   "transition-colors duration-300 min-h-[44px] min-w-[44px] items-center justify-center hidden sm:flex",
@@ -95,7 +96,7 @@ export function Navbar() {
                 )}
               >
                 <User className="w-5 h-5" strokeWidth={1.5} />
-              </button>
+              </Link>
               <CartButton className={cn("transition-colors duration-300", iconColor)} />
               <button
                 aria-label="Menu"

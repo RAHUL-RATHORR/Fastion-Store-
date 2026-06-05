@@ -8,7 +8,7 @@ const links = [
   { href: "#home", icon: Home, label: "Home" },
   { href: "#collection", icon: Grid3X3, label: "Shop" },
   { href: "#cart", icon: ShoppingBag, label: "Bag", isCart: true },
-  { href: "#contact", icon: User, label: "Account" },
+  { href: "/account", icon: User, label: "Account" },
 ];
 
 export function MobileBottomNav() {

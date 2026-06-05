@@ -5,8 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Lock, ShoppingBag } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { generateOrderId, getDeliveryDate, savePlacedOrder } from "@/lib/order";
+import { generateOrderId, getDeliveryDate, savePlacedOrder, type PlacedOrder } from "@/lib/order";
 import { cn, formatPrice } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -49,6 +50,7 @@ const paymentLabels: Record<PaymentMethod, string> = {
 
 export function CheckoutPage() {
   const router = useRouter();
+  const { user } = useAuth();
   const { items, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("upi");
@@ -74,9 +76,8 @@ export function CheckoutPage() {
     }
 
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1200));
 
-    savePlacedOrder({
+    const order: PlacedOrder = {
       orderId: generateOrderId(),
       placedAt: new Date().toISOString(),
       items: [...items],
@@ -96,8 +97,35 @@ export function CheckoutPage() {
         zip: String(form.get("zip") || ""),
       },
       deliveryDate: getDeliveryDate(),
-    });
+    };
 
+    try {
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order,
+          loginEmail: user?.email,
+          loginPhone: user?.phone,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.notifications) {
+          order.notifications = {
+            emailSent: data.notifications.email.sent,
+            smsSent: data.notifications.sms.sent,
+            emailTargets: data.notifications.email.targets,
+            smsTargets: data.notifications.sms.targets,
+          };
+        }
+      }
+    } catch {
+      /* order still completes locally */
+    }
+
+    savePlacedOrder(order);
     clearCart();
     router.push("/order-confirmation");
   };
@@ -158,6 +186,7 @@ export function CheckoutPage() {
                       name="email"
                       type="email"
                       required
+                      defaultValue={user?.email || ""}
                       placeholder="you@example.com"
                       className={inputClass}
                     />
@@ -170,6 +199,7 @@ export function CheckoutPage() {
                       id="phone"
                       name="phone"
                       type="tel"
+                      defaultValue={user?.phone || ""}
                       placeholder="+91 98765 43210"
                       className={inputClass}
                     />
