@@ -25,6 +25,7 @@ type CartContextType = {
   closeCart: () => void;
   addToCart: (productId: number, size?: string) => void;
   removeFromCart: (id: number, size: string) => void;
+  clearCart: () => void;
   totalItems: number;
 };
 
@@ -66,6 +67,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setItems((prev) => prev.filter((i) => !(i.id === id && i.size === size)));
   }, []);
 
+  const clearCart = useCallback(() => {
+    setItems([]);
+    setIsOpen(false);
+  }, []);
+
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
 
   return (
@@ -77,6 +83,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         closeCart: () => setIsOpen(false),
         addToCart,
         removeFromCart,
+        clearCart,
         totalItems,
       }}
     >

@@ -2,11 +2,11 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 export function CartDrawer() {
   const { items, isOpen, closeCart, removeFromCart, totalItems } = useCart();
@@ -83,7 +83,13 @@ export function CartDrawer() {
                   <span className="text-[#a1a1aa]">Subtotal</span>
                   <span className="text-white font-medium">{formatPrice(total)}</span>
                 </div>
-                <Button variant="primary" className="w-full">Checkout</Button>
+                <Link
+                  href="/checkout"
+                  onClick={closeCart}
+                  className="inline-flex items-center justify-center w-full min-h-[44px] px-6 py-3 text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all duration-300 bg-[#e5e5e5] text-[#050505] hover:bg-white border border-transparent hover:shadow-[0_0_30px_rgba(229,229,229,0.3)]"
+                >
+                  Checkout
+                </Link>
               </div>
             )}
           </motion.aside>

@@ -343,10 +343,10 @@ export const footerLinks = {
   ],
   support: [
     { label: "Contact Us", href: "#contact" },
+    { label: "Track Order", href: "/track-order" },
     { label: "Shipping", href: "#" },
     { label: "Returns", href: "#" },
     { label: "Size Guide", href: "#" },
-    { label: "FAQ", href: "#" },
   ],
   social: [
     { label: "Instagram", href: "https://instagram.com" },
