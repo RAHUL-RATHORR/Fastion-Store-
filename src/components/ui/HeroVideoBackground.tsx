@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 interface HeroVideoBackgroundProps {
@@ -16,6 +16,25 @@ export function HeroVideoBackground({ sources, poster }: HeroVideoBackgroundProp
 
   const activeSrc = sources[sourceIndex] ?? poster;
 
+  const tryPlay = useCallback(async () => {
+    const video = videoRef.current;
+    if (!video || reducedMotion) return;
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
+
+    try {
+      if (video.paused) {
+        await video.play();
+      }
+      setReady(true);
+    } catch {
+      /* autoplay blocked until user interacts */
+    }
+  }, [reducedMotion]);
+
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mq.matches);
@@ -26,20 +45,48 @@ export function HeroVideoBackground({ sources, poster }: HeroVideoBackgroundProp
 
   useEffect(() => {
     if (reducedMotion) return;
+
     const video = videoRef.current;
     if (!video) return;
 
-    const play = async () => {
-      try {
-        video.currentTime = 0;
-        await video.play();
-      } catch {
-        /* autoplay blocked */
-      }
+    const markReady = () => setReady(true);
+    const events = ["loadeddata", "loadedmetadata", "canplay", "playing"] as const;
+
+    events.forEach((event) => video.addEventListener(event, markReady));
+    video.addEventListener("playing", tryPlay);
+
+    void tryPlay();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) void tryPlay();
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(video);
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") void tryPlay();
     };
 
-    play();
-  }, [activeSrc, reducedMotion]);
+    const onPageShow = () => void tryPlay();
+    const onTouch = () => void tryPlay();
+
+    document.addEventListener("visibilitychange", onVisible);
+    window.addEventListener("pageshow", onPageShow);
+    window.addEventListener("touchstart", onTouch, { once: true, passive: true });
+    window.addEventListener("click", onTouch, { once: true });
+
+    return () => {
+      events.forEach((event) => video.removeEventListener(event, markReady));
+      video.removeEventListener("playing", tryPlay);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisible);
+      window.removeEventListener("pageshow", onPageShow);
+      window.removeEventListener("touchstart", onTouch);
+      window.removeEventListener("click", onTouch);
+    };
+  }, [activeSrc, reducedMotion, tryPlay]);
 
   const handleError = () => {
     setReady(false);
@@ -59,13 +106,13 @@ export function HeroVideoBackground({ sources, poster }: HeroVideoBackgroundProp
   }
 
   return (
-    <div className="absolute inset-0">
+    <div className="absolute inset-0 overflow-hidden">
       <Image
         src={poster}
         alt=""
         fill
         priority
-        className={`object-cover object-center transition-opacity duration-1000 ${
+        className={`object-cover object-center transition-opacity duration-700 ${
           ready ? "opacity-0" : "opacity-100"
         }`}
         sizes="100vw"
@@ -81,19 +128,19 @@ export function HeroVideoBackground({ sources, poster }: HeroVideoBackgroundProp
         playsInline
         preload="auto"
         poster={poster}
+        disablePictureInPicture
         onLoadedData={() => setReady(true)}
-        onCanPlay={() => setReady(true)}
+        onCanPlay={() => void tryPlay()}
+        onPlaying={() => setReady(true)}
         onError={handleError}
-        className={`absolute inset-0 h-full w-full object-cover object-center scale-105 transition-opacity duration-1000 ${
-          ready ? "opacity-100" : "opacity-0"
-        }`}
+        className={`hero-video transition-opacity duration-700 ${ready ? "opacity-100" : "opacity-0"}`}
       >
         <source src={activeSrc} type="video/mp4" />
       </video>
 
-      <div className="absolute inset-0 hero-gradient" />
-      <div className="absolute inset-0 bg-[#050505]/45" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,5,5,0.45)_100%)]" />
+      <div className="absolute inset-0 hero-gradient pointer-events-none" />
+      <div className="absolute inset-0 bg-[#050505]/45 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(5,5,5,0.45)_100%)] pointer-events-none" />
     </div>
   );
 }

@@ -133,6 +133,23 @@ body {
   );
 }
 
+/* Full-bleed hero video — fixes iOS Safari sizing & autoplay rendering */
+.hero-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  transform: translate(-50%, -50%) translateZ(0);
+  -webkit-transform: translate(-50%, -50%) translateZ(0);
+  pointer-events: none;
+}
+
 .slide-gradient {
   background: linear-gradient(
     to top,
