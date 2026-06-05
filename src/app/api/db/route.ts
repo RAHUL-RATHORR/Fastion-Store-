@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
-import clientPromise, { getDb } from "@/lib/mongodb";
+import { getClient, getDb } from "@/lib/mongodb";
+
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const client = await clientPromise;
+    const client = await getClient();
     await client.db("admin").command({ ping: 1 });
     const db = await getDb();
     const collections = await db.listCollections().toArray();
