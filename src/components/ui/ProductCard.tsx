@@ -25,7 +25,7 @@ export function ProductCard({
   id,
   name,
   price,
-  category,
+  category: _category,
   image,
   index,
   badge,

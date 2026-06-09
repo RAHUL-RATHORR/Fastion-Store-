@@ -10,7 +10,7 @@ export type AuthUser = {
 const OTP_TTL_MS = 10 * 60 * 1000;
 const OTP_COOLDOWN_MS = 60 * 1000;
 
-function useMemoryOtp() {
+function shouldUseMemoryOtp() {
   return (
     process.env.AUTH_OTP_MEMORY === "true" ||
     (process.env.NODE_ENV === "development" && process.env.AUTH_OTP_MEMORY !== "false")
@@ -55,7 +55,7 @@ async function saveOtpToDb(email: string, otp: string) {
 export async function saveEmailOtp(email: string, otp: string) {
   const normalized = normalizeEmail(email);
 
-  if (useMemoryOtp()) {
+  if (shouldUseMemoryOtp()) {
     memorySaveOtp(normalized, otp);
     return;
   }
@@ -113,7 +113,7 @@ async function verifyOtpInDb(email: string, otp: string, name?: string): Promise
 export async function verifyEmailOtp(email: string, otp: string, name?: string): Promise<AuthUser> {
   const normalized = normalizeEmail(email);
 
-  if (useMemoryOtp()) {
+  if (shouldUseMemoryOtp()) {
     memoryVerifyOtp(normalized, otp);
     return {
       email: normalized,
