@@ -5,13 +5,24 @@ declare global {
 }
 
 function getMongoOptions(): MongoClientOptions {
-  const options: MongoClientOptions = {};
+  const options: MongoClientOptions = {
+    serverSelectionTimeoutMS: 15000,
+    connectTimeoutMS: 15000,
+    socketTimeoutMS: 45000,
+    maxPoolSize: 10,
+  };
 
   if (process.env.MONGODB_TLS_ALLOW_INVALID === "true") {
     options.tlsAllowInvalidCertificates = true;
   }
 
   return options;
+}
+
+export function resetMongoClient() {
+  if (process.env.NODE_ENV === "development") {
+    global._mongoClientPromise = undefined;
+  }
 }
 
 function getClientPromise(): Promise<MongoClient> {

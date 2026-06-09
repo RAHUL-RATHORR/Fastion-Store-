@@ -65,7 +65,7 @@ function LookCard({
       )}
 
       <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-4">
-        <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#e5e5e5] text-[#050505] text-[9px] sm:text-[10px] font-medium uppercase tracking-[0.12em] px-3 py-2 sm:px-4 sm:py-2.5 rounded-full hover:bg-white transition-colors duration-300">
+        <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-[#e5e5e5] text-[#050505] text-[9px] sm:text-[10px] font-medium uppercase tracking-[0.12em] px-3 py-2 sm:px-4 sm:py-2.5 rounded-full hover:bg-[#050505] transition-colors duration-300">
           <ShoppingBag className="w-3 h-3 sm:w-3.5 sm:h-3.5" strokeWidth={1.5} />
           Shop All
         </span>
@@ -111,14 +111,14 @@ export function CuratedLooks() {
           <button
             onClick={prev}
             aria-label="Previous look"
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#e5e5e5] text-[#050505] flex items-center justify-center hover:bg-white transition-colors duration-300 shadow-lg"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#e5e5e5] text-[#050505] flex items-center justify-center hover:bg-[#050505] transition-colors duration-300 shadow-lg"
           >
             <ChevronLeft className="w-5 h-5" strokeWidth={1.5} />
           </button>
           <button
             onClick={next}
             aria-label="Next look"
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#e5e5e5] text-[#050505] flex items-center justify-center hover:bg-white transition-colors duration-300 shadow-lg"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 w-10 h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-full bg-[#e5e5e5] text-[#050505] flex items-center justify-center hover:bg-[#050505] transition-colors duration-300 shadow-lg"
           >
             <ChevronRight className="w-5 h-5" strokeWidth={1.5} />
           </button>

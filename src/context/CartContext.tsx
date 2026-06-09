@@ -7,7 +7,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { products } from "@/lib/data";
+import { allProducts } from "@/lib/data";
 
 export type CartItem = {
   id: number;
@@ -23,7 +23,7 @@ type CartContextType = {
   isOpen: boolean;
   openCart: () => void;
   closeCart: () => void;
-  addToCart: (productId: number, size?: string) => void;
+  addToCart: (productId: number, size?: string, quantity?: number) => void;
   removeFromCart: (id: number, size: string) => void;
   clearCart: () => void;
   totalItems: number;
@@ -35,16 +35,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
 
-  const addToCart = useCallback((productId: number, size = "M") => {
-    const product = products.find((p) => p.id === productId);
+  const addToCart = useCallback((productId: number, size = "M", quantity = 1) => {
+    const product = allProducts.find((p) => p.id === productId);
     if (!product) return;
+
+    const qty = Math.max(1, quantity);
 
     setItems((prev) => {
       const existing = prev.find((i) => i.id === productId && i.size === size);
       if (existing) {
         return prev.map((i) =>
           i.id === productId && i.size === size
-            ? { ...i, quantity: i.quantity + 1 }
+            ? { ...i, quantity: i.quantity + qty }
             : i
         );
       }
@@ -56,7 +58,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           price: product.price,
           image: product.image,
           size,
-          quantity: 1,
+          quantity: qty,
         },
       ];
     });

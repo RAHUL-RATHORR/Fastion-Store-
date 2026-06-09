@@ -28,12 +28,6 @@ export type PlacedOrder = {
     zip: string;
   };
   deliveryDate: string;
-  notifications?: {
-    emailSent: boolean;
-    smsSent: boolean;
-    emailTargets?: string[];
-    smsTargets?: string[];
-  };
 };
 
 export type TrackingStep = {

@@ -65,19 +65,6 @@ export function OrderConfirmationPage() {
           <p className="text-[#a1a1aa] text-sm sm:text-base max-w-md mx-auto">
             Thank you for shopping with GILZOD. Your order has been confirmed.
           </p>
-          {order.notifications && (
-            <div className="mt-4 space-y-1 text-xs text-[#a1a1aa]">
-              {order.notifications.emailSent && order.notifications.emailTargets?.length ? (
-                <p>Confirmation email sent to {order.notifications.emailTargets.join(", ")}</p>
-              ) : null}
-              {order.notifications.smsSent && order.notifications.smsTargets?.length ? (
-                <p>Confirmation SMS sent to {order.notifications.smsTargets.join(", ")}</p>
-              ) : null}
-              {!order.notifications.emailSent && !order.notifications.smsSent && (
-                <p>Order saved. Configure SMTP/SMS in server settings for auto alerts.</p>
-              )}
-            </div>
-          )}
           <div className="mt-6 inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-6 text-sm">
             <span className="text-[#a1a1aa]">
               Order ID:{" "}

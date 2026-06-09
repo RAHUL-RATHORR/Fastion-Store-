@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, Lock, ShoppingBag } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import { generateOrderId, getDeliveryDate, savePlacedOrder, type PlacedOrder } from "@/lib/order";
+import { generateOrderId, getDeliveryDate, savePlacedOrder } from "@/lib/order";
 import { cn, formatPrice } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
@@ -76,8 +76,9 @@ export function CheckoutPage() {
     }
 
     setIsSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 1200));
 
-    const order: PlacedOrder = {
+    savePlacedOrder({
       orderId: generateOrderId(),
       placedAt: new Date().toISOString(),
       items: [...items],
@@ -97,35 +98,8 @@ export function CheckoutPage() {
         zip: String(form.get("zip") || ""),
       },
       deliveryDate: getDeliveryDate(),
-    };
+    });
 
-    try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          order,
-          loginEmail: user?.email,
-          loginPhone: user?.phone,
-        }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        if (data.notifications) {
-          order.notifications = {
-            emailSent: data.notifications.email.sent,
-            smsSent: data.notifications.sms.sent,
-            emailTargets: data.notifications.email.targets,
-            smsTargets: data.notifications.sms.targets,
-          };
-        }
-      }
-    } catch {
-      /* order still completes locally */
-    }
-
-    savePlacedOrder(order);
     clearCart();
     router.push("/order-confirmation");
   };
@@ -217,7 +191,13 @@ export function CheckoutPage() {
                       <label htmlFor="firstName" className={labelClass}>
                         First Name
                       </label>
-                      <input id="firstName" name="firstName" required className={inputClass} />
+                      <input
+                        id="firstName"
+                        name="firstName"
+                        required
+                        defaultValue={user?.name?.split(" ")[0] || ""}
+                        className={inputClass}
+                      />
                     </div>
                     <div>
                       <label htmlFor="lastName" className={labelClass}>

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { useUI } from "@/context/UIContext";
-import { products, searchTrending } from "@/lib/data";
+import { allProducts, searchTrending } from "@/lib/data";
 
 export function SearchOverlay() {
   const { searchOpen, closeSearch } = useUI();
@@ -20,7 +20,7 @@ export function SearchOverlay() {
   }, [searchOpen]);
 
   const filtered = query
-    ? products.filter((p) =>
+    ? allProducts.filter((p) =>
         p.name.toLowerCase().includes(query.toLowerCase())
       )
     : [];
@@ -74,7 +74,7 @@ export function SearchOverlay() {
                   filtered.map((p) => (
                     <Link
                       key={p.id}
-                      href="#new-arrivals"
+                      href={`/product/${p.id}`}
                       onClick={closeSearch}
                       className="block glass p-4 hover:silver-glow transition-all"
                     >

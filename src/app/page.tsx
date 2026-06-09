@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/layout/Navbar";
+import { PincodeBar } from "@/components/layout/PincodeBar";
 import { Footer } from "@/components/layout/Footer";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { ScrollProgress, PageLoader } from "@/components/layout/ScrollProgress";
@@ -15,6 +16,7 @@ import { EditorialShowcase } from "@/components/sections/EditorialShowcase";
 import { CuratedLooks } from "@/components/sections/CuratedLooks";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { FeaturedCategories } from "@/components/sections/FeaturedCategories";
+import { ShopYourSizeBanner } from "@/components/sections/ShopYourSizeBanner";
 import { TrendingNow } from "@/components/sections/TrendingNow";
 import { ShopTheDrop } from "@/components/sections/ShopTheDrop";
 import { FeaturedCollection } from "@/components/sections/FeaturedCollection";
@@ -34,16 +36,18 @@ export default function Home() {
       <SearchOverlay />
       <SizeGuideModal />
       <Navbar />
+      <PincodeBar />
       <PageTransition>
         <main className="w-full max-w-[1920px] mx-auto overflow-x-hidden pb-20 md:pb-0">
           <Hero />
+          <FeaturedCategories />
+          <ShopYourSizeBanner />
           <MarqueeStrip />
           <SectionDivider />
           <EditorialShowcase />
           <CuratedLooks />
           <SocialProof />
           <SectionDivider />
-          <FeaturedCategories />
           <TrendingNow />
           <ShopTheDrop />
           <SectionDivider />

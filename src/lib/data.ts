@@ -1,12 +1,70 @@
-export const heroVideo = {
-  /** Local first — replace public/videos/hero.mp4 with your own luxury clip */
-  sources: [
-    "/videos/hero.mp4",
-    "https://cdn.coverr.co/videos/coverr-man-adjusting-his-suit-jacket-5694/1080p.mp4",
-    "https://cdn.coverr.co/videos/coverr-fashion-model-walking-on-the-street-4296/1080p.mp4",
-  ],
-  poster: "/images/editorial/top.jpg",
-} as const;
+export const heroSlides = [
+  {
+    id: 1,
+    image: "/images/hero/hero-shirts.jpg",
+    tag: "Limited Time Offer",
+    title: "Summer Shirts",
+    subtitle: "Linen & cotton essentials for the season",
+    discount: "50",
+    discountLabel: "Up to",
+    href: "/category/shirts",
+    gradient: "linear-gradient(135deg, #9B1B1B 0%, #6E1212 45%, #3D0A0A 100%)",
+    accent: "#F5C518",
+    badgeBg: "#C41E1E",
+  },
+  {
+    id: 2,
+    image: "/images/hero/hero-tshirts.jpg",
+    tag: "New Drop",
+    title: "Premium Tees",
+    subtitle: "Oversized fits & everyday classics",
+    discount: "40",
+    discountLabel: "Flat",
+    href: "/category/t-shirts",
+    gradient: "linear-gradient(135deg, #0F2B5B 0%, #0A1F42 50%, #061428 100%)",
+    accent: "#4FC3F7",
+    badgeBg: "#1565C0",
+  },
+  {
+    id: 3,
+    image: "/images/hero/hero-jeans.jpg",
+    tag: "Trending Now",
+    title: "Denim Edit",
+    subtitle: "Relaxed jeans & street-ready fits",
+    discount: "50",
+    discountLabel: "Up to",
+    href: "/category/pants",
+    gradient: "linear-gradient(135deg, #1A4D6E 0%, #123550 50%, #0A2235 100%)",
+    accent: "#81D4FA",
+    badgeBg: "#0277BD",
+  },
+  {
+    id: 4,
+    image: "/images/hero/hero-pants.jpg",
+    tag: "Hot Pick",
+    title: "Casual Pants",
+    subtitle: "Chinos & summer fits for every day",
+    discount: "30",
+    discountLabel: "Get",
+    href: "/category/pants",
+    gradient: "linear-gradient(135deg, #2D5A27 0%, #1E3D1A 50%, #122610 100%)",
+    accent: "#A5D6A7",
+    badgeBg: "#2E7D32",
+  },
+  {
+    id: 5,
+    image: "/images/hero/hero-lower.jpg",
+    tag: "Weekend Special",
+    title: "Street Collection",
+    subtitle: "Tees, cargos & weekend essentials",
+    discount: "50",
+    discountLabel: "Up to",
+    href: "/category/lower",
+    gradient: "linear-gradient(135deg, #8B4513 0%, #6B3410 50%, #4A2409 100%)",
+    accent: "#FFCC80",
+    badgeBg: "#E65100",
+  },
+] as const;
 
 export const navLinks = [
   { label: "Home", href: "#home" },
@@ -107,7 +165,7 @@ export const searchTrending = [
   "Oversized Tee",
   "New Drop",
   "Tailored Pants",
-  "Accessories",
+  "Lower",
   "Silk Shirt",
 ] as const;
 
@@ -172,6 +230,22 @@ export const storeLocations = [
 
 export const dropEndDate = new Date("2026-06-15T23:59:59");
 
+export const shopYourSizeBanner = {
+  heading: "Shop Your Size",
+  tagline: "Last chance!",
+  offer: "Up to 30% Off*",
+  image: "/images/promo-size-banner.jpg",
+  href: "/#new-arrivals",
+  bgColor: "#7EC8E3",
+} as const;
+
+export const featuredCategoryGrid = [
+  { id: "shirts", label: "Shirts", image: "/images/categories/cat-shirts.png", href: "/category/shirts" },
+  { id: "t-shirts", label: "T-Shirts", image: "/images/categories/cat-tshirts.png", href: "/category/t-shirts" },
+  { id: "pants", label: "Pants", image: "/images/categories/cat-trousers.png", href: "/category/pants" },
+  { id: "lower", label: "Lower", image: "/images/categories/cat-cargos.png", href: "/category/lower" },
+] as const;
+
 export const categories = [
   {
     id: "t-shirts",
@@ -189,8 +263,8 @@ export const categories = [
     image: "/images/editorial/bottom.jpg",
   },
   {
-    id: "accessories",
-    title: "Accessories",
+    id: "lower",
+    title: "Lower",
     image: "/images/editorial/top.jpg",
   },
 ] as const;
@@ -252,7 +326,7 @@ export const products = [
     id: 7,
     name: "Leather Crossbody Bag",
     price: 249,
-    category: "Accessories",
+    category: "Lower",
     image: "/images/editorial/top.jpg",
     badge: "New" as const,
     pairWith: 4,
@@ -261,11 +335,90 @@ export const products = [
     id: 8,
     name: "Premium Leather Belt",
     price: 99,
-    category: "Accessories",
+    category: "Lower",
     image: "/images/editorial/top.jpg",
     pairWith: 5,
   },
 ] as const;
+
+export type CatalogProduct = {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+  image: string;
+  badge?: "Bestseller" | "New";
+};
+
+export const categoryCatalog: Record<string, CatalogProduct[]> = {
+  "t-shirts": [
+    { id: 1, name: "Signature Oversized Tee", price: 89, category: "T-Shirts", image: "/images/editorial/left.jpg", badge: "Bestseller" },
+    { id: 2, name: "Essential Cotton Tee", price: 69, category: "T-Shirts", image: "/images/editorial/left.jpg", badge: "New" },
+    { id: 11, name: "Classic Crew Neck Tee", price: 59, category: "T-Shirts", image: "/images/editorial/left.jpg" },
+    { id: 12, name: "Heavyweight Boxy Tee", price: 79, category: "T-Shirts", image: "/images/editorial/top.jpg" },
+    { id: 13, name: "Vintage Wash Tee", price: 74, category: "T-Shirts", image: "/images/editorial/bottom.jpg", badge: "New" },
+    { id: 14, name: "Minimal Logo Tee", price: 65, category: "T-Shirts", image: "/images/editorial/right.jpg" },
+    { id: 15, name: "Ribbed Knit Tee", price: 85, category: "T-Shirts", image: "/images/editorial/left.jpg" },
+    { id: 16, name: "Longline Drop Tee", price: 72, category: "T-Shirts", image: "/images/editorial/top.jpg" },
+  ],
+  shirts: [
+    { id: 3, name: "Oxford Dress Shirt", price: 149, category: "Shirts", image: "/images/editorial/right.jpg", badge: "New" },
+    { id: 4, name: "Silk Blend Shirt", price: 189, category: "Shirts", image: "/images/editorial/right.jpg" },
+    { id: 21, name: "Linen Summer Shirt", price: 129, category: "Shirts", image: "/images/editorial/top.jpg", badge: "Bestseller" },
+    { id: 22, name: "Slim Fit Formal Shirt", price: 139, category: "Shirts", image: "/images/editorial/right.jpg" },
+    { id: 23, name: "Striped Club Shirt", price: 119, category: "Shirts", image: "/images/editorial/bottom.jpg" },
+    { id: 24, name: "Denim Overshirt", price: 159, category: "Shirts", image: "/images/editorial/left.jpg", badge: "New" },
+    { id: 25, name: "Textured Cuban Shirt", price: 134, category: "Shirts", image: "/images/editorial/top.jpg" },
+    { id: 26, name: "Premium Poplin Shirt", price: 169, category: "Shirts", image: "/images/editorial/right.jpg" },
+  ],
+  pants: [
+    { id: 5, name: "Tailored Wool Trousers", price: 219, category: "Pants", image: "/images/editorial/bottom.jpg", badge: "Bestseller" },
+    { id: 6, name: "Slim Fit Chinos", price: 159, category: "Pants", image: "/images/editorial/bottom.jpg" },
+    { id: 31, name: "Relaxed Cargo Pants", price: 149, category: "Pants", image: "/images/editorial/left.jpg", badge: "New" },
+    { id: 32, name: "Pleated Dress Pants", price: 199, category: "Pants", image: "/images/editorial/right.jpg" },
+    { id: 33, name: "Tapered Linen Pants", price: 139, category: "Pants", image: "/images/editorial/bottom.jpg" },
+    { id: 34, name: "Straight Fit Denim", price: 129, category: "Pants", image: "/images/editorial/top.jpg" },
+    { id: 35, name: "Utility Jogger Pants", price: 119, category: "Pants", image: "/images/editorial/left.jpg" },
+    { id: 36, name: "Classic Wool Trousers", price: 209, category: "Pants", image: "/images/editorial/bottom.jpg", badge: "New" },
+  ],
+  lower: [
+    { id: 7, name: "Leather Crossbody Bag", price: 249, category: "Lower", image: "/images/editorial/top.jpg", badge: "New" },
+    { id: 8, name: "Premium Leather Belt", price: 99, category: "Lower", image: "/images/editorial/top.jpg" },
+    { id: 41, name: "Minimalist Watch", price: 299, category: "Lower", image: "/images/editorial/right.jpg", badge: "Bestseller" },
+    { id: 42, name: "Silver Chain Necklace", price: 149, category: "Lower", image: "/images/editorial/left.jpg" },
+    { id: 43, name: "Aviator Sunglasses", price: 179, category: "Lower", image: "/images/editorial/top.jpg", badge: "New" },
+    { id: 44, name: "Leather Card Holder", price: 79, category: "Lower", image: "/images/editorial/bottom.jpg" },
+    { id: 45, name: "Wool Beanie", price: 59, category: "Lower", image: "/images/editorial/left.jpg" },
+    { id: 46, name: "Signature Cap", price: 49, category: "Lower", image: "/images/editorial/right.jpg" },
+  ],
+};
+
+const catalogById = new Map<number, CatalogProduct>();
+for (const item of products) {
+  catalogById.set(item.id, {
+    id: item.id,
+    name: item.name,
+    price: item.price,
+    category: item.category,
+    image: item.image,
+    ...("badge" in item && item.badge ? { badge: item.badge } : {}),
+  });
+}
+for (const list of Object.values(categoryCatalog)) {
+  for (const item of list) {
+    catalogById.set(item.id, item);
+  }
+}
+
+export const allProducts = [...catalogById.values()];
+
+export function getCategoryBySlug(slug: string) {
+  return categories.find((c) => c.id === slug);
+}
+
+export function getProductsByCategory(slug: string): CatalogProduct[] {
+  return categoryCatalog[slug] ?? [];
+}
 
 export const whyGilzod = [
   {
@@ -336,10 +489,10 @@ export const footerLinks = {
   ],
   shop: [
     { label: "New Arrivals", href: "#new-arrivals" },
-    { label: "T-Shirts", href: "#collection" },
-    { label: "Shirts", href: "#collection" },
-    { label: "Pants", href: "#collection" },
-    { label: "Accessories", href: "#collection" },
+    { label: "T-Shirts", href: "/category/t-shirts" },
+    { label: "Shirts", href: "/category/shirts" },
+    { label: "Pants", href: "/category/pants" },
+    { label: "Lower", href: "/category/lower" },
   ],
   support: [
     { label: "Contact Us", href: "#contact" },

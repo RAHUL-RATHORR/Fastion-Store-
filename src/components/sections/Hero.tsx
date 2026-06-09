@@ -1,108 +1,133 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-import { HeroVideoBackground } from "@/components/ui/HeroVideoBackground";
-import { heroVideo } from "@/lib/data";
+import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { heroSlides } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
-const line1 = "Rule Beyond".split("");
-const line2 = "Limits".split("");
+const AUTO_INTERVAL = 5000;
 
 export function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const springX = useSpring(mx, { stiffness: 100, damping: 30 });
-  const springY = useSpring(my, { stiffness: 100, damping: 30 });
-  const textX = useTransform(springX, [-0.5, 0.5], [-12, 12]);
-  const textY = useTransform(springY, [-0.5, 0.5], [-8, 8]);
+  const [active, setActive] = useState(0);
+  const total = heroSlides.length;
 
-  const handleMove = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    mx.set((e.clientX - rect.left) / rect.width - 0.5);
-    my.set((e.clientY - rect.top) / rect.height - 0.5);
-  };
+  const next = useCallback(() => setActive((i) => (i + 1) % total), [total]);
+  const prev = useCallback(() => setActive((i) => (i - 1 + total) % total), [total]);
+
+  useEffect(() => {
+    const timer = setInterval(next, AUTO_INTERVAL);
+    return () => clearInterval(timer);
+  }, [next]);
 
   return (
     <section
-      ref={ref}
       id="home"
-      onMouseMove={handleMove}
-      className="relative min-h-screen-safe flex items-center justify-center overflow-hidden"
+      className="bg-white pt-[calc(5.5rem+env(safe-area-inset-top))] md:pt-[calc(6rem+env(safe-area-inset-top))]"
     >
-      <HeroVideoBackground sources={heroVideo.sources} poster={heroVideo.poster} />
+      <div className="relative h-[52vh] min-h-[300px] max-h-[480px] sm:min-h-[340px] sm:max-h-[520px] md:min-h-[380px] md:max-h-[560px] overflow-hidden">
+        {heroSlides.map((slide, i) => (
+          <Link
+            key={slide.id}
+            href={slide.href}
+            aria-hidden={i !== active}
+            className={cn(
+              "absolute inset-0 transition-opacity duration-700 ease-in-out block",
+              i === active ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
+            )}
+          >
+            <div
+              className="absolute inset-0"
+              style={{ background: slide.gradient }}
+            />
 
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] bg-[#c0c0c0]/5 rounded-full blur-[80px] md:blur-[120px] pointer-events-none z-[1]" />
+            <div className="relative h-full flex items-center">
+              <div className="relative z-10 flex flex-col justify-center px-6 sm:px-10 md:px-14 lg:px-20 max-w-[55%] sm:max-w-[50%]">
+                <span
+                  className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] mb-2 sm:mb-3"
+                  style={{ color: slide.accent }}
+                >
+                  {slide.tag}
+                </span>
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold uppercase text-white leading-tight tracking-wide mb-2 sm:mb-3">
+                  {slide.title}
+                </h2>
+                <p className="text-xs sm:text-sm text-white/75 leading-relaxed mb-4 sm:mb-6 max-w-[280px]">
+                  {slide.subtitle}
+                </p>
+                <span
+                  className="inline-flex items-center gap-2 w-fit px-5 sm:px-6 py-2.5 sm:py-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#111] rounded-sm"
+                  style={{ backgroundColor: slide.accent }}
+                >
+                  Shop Now
+                  <ArrowRight className="w-4 h-4" />
+                </span>
+              </div>
 
-      <motion.div
-        style={{ x: textX, y: textY }}
-        className="relative z-10 w-full max-w-5xl 2xl:max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-10 text-center pt-[calc(5rem+env(safe-area-inset-top))] sm:pt-24 md:pt-28 pb-12 sm:pb-16"
-      >
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="inline-block text-[10px] md:text-xs uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[#e5e5e5] mb-4 sm:mb-6 md:mb-8 drop-shadow-lg"
-        >
-          Premium Menswear
-        </motion.span>
+              <div className="absolute right-0 top-0 bottom-0 w-[55%] sm:w-[50%] pointer-events-none">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className="absolute bottom-0 right-0 h-[95%] sm:h-full w-auto max-w-none object-contain object-bottom drop-shadow-2xl"
+                />
+              </div>
 
-        <h1 className="font-[family-name:var(--font-playfair)] text-[2rem] leading-[1.15] min-[480px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[5.5rem] font-normal tracking-tight text-white mb-4 sm:mb-6 md:mb-8 drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)] px-2">
-          <span className="inline-block">
-            {line1.map((char, i) => (
-              <motion.span
-                key={`l1-${i}`}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + i * 0.04, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block"
-                style={{ whiteSpace: char === " " ? "pre" : undefined }}
+              <div
+                className="absolute right-6 sm:right-10 md:right-14 top-1/2 -translate-y-1/2 z-20 rounded-2xl px-4 sm:px-5 py-3 sm:py-4 text-center shadow-lg hidden sm:block"
+                style={{ backgroundColor: slide.badgeBg }}
               >
-                {char === " " ? "\u00A0" : char}
-              </motion.span>
-            ))}
-          </span>
-          <br />
-          <span className="inline-block metallic-text shimmer-text drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)]">
-            {line2.map((char, i) => (
-              <motion.span
-                key={`l2-${i}`}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 + i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="inline-block"
-              >
-                {char}
-              </motion.span>
-            ))}
-          </span>
-        </h1>
+                <p className="text-[10px] sm:text-xs uppercase tracking-wider text-white/90 font-medium">
+                  {slide.discountLabel}
+                </p>
+                <p className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-none my-0.5">
+                  {slide.discount}%
+                </p>
+                <p
+                  className="text-xs sm:text-sm font-bold uppercase tracking-wider"
+                  style={{ color: slide.accent }}
+                >
+                  Off
+                </p>
+              </div>
+            </div>
+          </Link>
+        ))}
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.4 }}
-          className="text-[#e5e5e5] text-sm sm:text-base lg:text-lg max-w-md mx-auto leading-relaxed mb-8 sm:mb-10 md:mb-12 drop-shadow-md px-4"
+        <button
+          type="button"
+          aria-label="Previous slide"
+          onClick={prev}
+          className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white/90 text-[#111] shadow-md hover:bg-white transition-colors"
         >
-          Crafted for ambitious men who refuse ordinary.
-        </motion.p>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          type="button"
+          aria-label="Next slide"
+          onClick={next}
+          className="absolute right-3 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-white/90 text-[#111] shadow-md hover:bg-white transition-colors"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.6 }}
-          className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto px-4 sm:px-0"
-        >
-          <Button variant="primary" href="#collection" className="w-full sm:w-auto">
-            Shop Collection
-          </Button>
-          <Button variant="secondary" href="#about" className="w-full sm:w-auto">
-            Explore Brand
-          </Button>
-        </motion.div>
-      </motion.div>
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
+          {heroSlides.map((slide, i) => (
+            <button
+              key={slide.id}
+              type="button"
+              aria-label={`Go to slide ${i + 1}`}
+              onClick={() => setActive(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                i === active
+                  ? "w-7 bg-[#F5C518]"
+                  : "w-1.5 bg-white/40 hover:bg-white/60"
+              )}
+            />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

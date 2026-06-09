@@ -9,54 +9,49 @@ import {
   type ReactNode,
 } from "react";
 
-export type AuthUser = {
-  name: string;
+export type User = {
   email: string;
-  phone: string;
+  name?: string;
+  phone?: string;
 };
 
 type AuthContextType = {
-  user: AuthUser | null;
-  login: (user: AuthUser) => void;
+  user: User | null;
+  isReady: boolean;
+  login: (user: User) => void;
   logout: () => void;
-  isLoggedIn: boolean;
 };
 
-const AUTH_KEY = "gilzod:user";
+const STORAGE_KEY = "gilzod:user";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem(AUTH_KEY);
-      if (raw) setUser(JSON.parse(raw) as AuthUser);
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) setUser(JSON.parse(raw) as User);
     } catch {
-      localStorage.removeItem(AUTH_KEY);
+      localStorage.removeItem(STORAGE_KEY);
     }
+    setIsReady(true);
   }, []);
 
-  const login = useCallback((nextUser: AuthUser) => {
-    setUser(nextUser);
-    localStorage.setItem(AUTH_KEY, JSON.stringify(nextUser));
+  const login = useCallback((next: User) => {
+    setUser(next);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   }, []);
 
   const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem(AUTH_KEY);
+    localStorage.removeItem(STORAGE_KEY);
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        logout,
-        isLoggedIn: !!user,
-      }}
-    >
+    <AuthContext.Provider value={{ user, isReady, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

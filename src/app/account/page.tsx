@@ -3,7 +3,7 @@ import { AccountPage } from "@/components/account/AccountPage";
 
 export const metadata: Metadata = {
   title: "My Account | GILZOD",
-  description: "Login to your GILZOD account with email and phone.",
+  description: "Manage your GILZOD account.",
 };
 
 export default function Account() {
