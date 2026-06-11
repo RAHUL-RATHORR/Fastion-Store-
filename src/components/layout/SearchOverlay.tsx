@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { useUI } from "@/context/UIContext";
 import { allProducts, searchTrending } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
 export function SearchOverlay() {
   const { searchOpen, closeSearch } = useUI();
@@ -101,6 +102,27 @@ export function SearchButton({ className }: { className?: string }) {
       className={className}
     >
       <Search className="w-5 h-5" strokeWidth={1.5} />
+    </button>
+  );
+}
+
+export function DesktopSearchBar({ className }: { className?: string }) {
+  const { openSearch } = useUI();
+
+  return (
+    <button
+      type="button"
+      onClick={openSearch}
+      aria-label="Search products"
+      className={cn(
+        "flex items-center gap-3 h-10 xl:h-11 w-full px-4 xl:px-5 rounded-full border border-[#d4d4d4] bg-white hover:border-[#111111] transition-colors text-left shadow-[0_1px_2px_rgba(0,0,0,0.04)]",
+        className
+      )}
+    >
+      <span className="flex-1 text-[13px] xl:text-sm text-[#999999] truncate">
+        What are you looking for?
+      </span>
+      <Search className="w-[18px] h-[18px] text-[#111111] shrink-0" strokeWidth={2} />
     </button>
   );
 }

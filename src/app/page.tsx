@@ -8,11 +8,7 @@ import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { CursorGlow } from "@/components/layout/CursorGlow";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
 import { SizeGuideModal } from "@/components/ui/SizeGuideModal";
-import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Hero } from "@/components/sections/Hero";
-import { MarqueeStrip } from "@/components/sections/MarqueeStrip";
-import { EditorialShowcase } from "@/components/sections/EditorialShowcase";
-import { CuratedLooks } from "@/components/sections/CuratedLooks";
 import { FeaturedCategories } from "@/components/sections/FeaturedCategories";
 import { ShopYourSizeBanner } from "@/components/sections/ShopYourSizeBanner";
 import { NewAndPopular } from "@/components/sections/NewAndPopular";
@@ -38,11 +34,6 @@ export default function Home() {
           <FeaturedCategories />
           <ShopYourSizeBanner />
           <NewAndPopular />
-          <MarqueeStrip />
-          <SectionDivider />
-          <EditorialShowcase />
-          <CuratedLooks />
-          <SectionDivider />
           <WhyGilzod />
           <ReviewsSection />
           <InstagramFeed />

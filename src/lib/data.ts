@@ -69,9 +69,6 @@ export const heroSlides = [
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Collection", href: "#collection" },
-  { label: "New Arrivals", href: "#new-arrivals" },
-  { label: "About", href: "#about" },
-  { label: "Contact", href: "#contact" },
 ] as const;
 
 export const editorialShowcase = {
