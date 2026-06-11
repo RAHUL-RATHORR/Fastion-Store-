@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#050505",
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
@@ -51,7 +51,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="antialiased min-w-0">
+      <body className="antialiased min-w-0 bg-white text-[#111111]">
         <AppProviders>{children}</AppProviders>
       </body>
     </html>

@@ -14,17 +14,13 @@ import { Hero } from "@/components/sections/Hero";
 import { MarqueeStrip } from "@/components/sections/MarqueeStrip";
 import { EditorialShowcase } from "@/components/sections/EditorialShowcase";
 import { CuratedLooks } from "@/components/sections/CuratedLooks";
-import { SocialProof } from "@/components/sections/SocialProof";
 import { FeaturedCategories } from "@/components/sections/FeaturedCategories";
 import { ShopYourSizeBanner } from "@/components/sections/ShopYourSizeBanner";
-import { TrendingNow } from "@/components/sections/TrendingNow";
-import { ShopTheDrop } from "@/components/sections/ShopTheDrop";
-import { FeaturedCollection } from "@/components/sections/FeaturedCollection";
+import { NewAndPopular } from "@/components/sections/NewAndPopular";
 import { WhyGilzod } from "@/components/sections/WhyGilzod";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
-import { PressStrip } from "@/components/sections/PressStrip";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
-import { Newsletter } from "@/components/sections/Newsletter";
+import { FooterSeoContent } from "@/components/sections/FooterSeoContent";
 
 export default function Home() {
   return (
@@ -38,27 +34,22 @@ export default function Home() {
       <Navbar />
       <PincodeBar />
       <PageTransition>
-        <main className="w-full max-w-[1920px] mx-auto overflow-x-hidden pb-20 md:pb-0">
+        <main className="w-full max-w-[1920px] mx-auto overflow-x-hidden pb-20 md:pb-0 bg-white">
           <Hero />
           <FeaturedCategories />
           <ShopYourSizeBanner />
+          <NewAndPopular />
           <MarqueeStrip />
           <SectionDivider />
           <EditorialShowcase />
           <CuratedLooks />
-          <SocialProof />
           <SectionDivider />
-          <TrendingNow />
-          <ShopTheDrop />
-          <SectionDivider />
-          <FeaturedCollection />
           <WhyGilzod />
           <ReviewsSection />
-          <PressStrip />
           <InstagramFeed />
-          <Newsletter />
         </main>
       </PageTransition>
+      <FooterSeoContent />
       <Footer />
       <StickyShopBar />
       <MobileBottomNav />

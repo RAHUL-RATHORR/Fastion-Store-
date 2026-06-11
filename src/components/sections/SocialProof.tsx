@@ -32,7 +32,7 @@ function Counter({
   }, [inView, value, decimal]);
 
   return (
-    <span ref={ref} className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl text-white">
+    <span ref={ref} className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl text-[#111111]">
       {decimal ? count.toFixed(1) : count.toLocaleString()}
       {suffix}
     </span>
@@ -41,7 +41,7 @@ function Counter({
 
 export function SocialProof() {
   return (
-    <section className="py-12 sm:py-16 bg-[#0d0d0d] border-y border-[rgba(192,192,192,0.06)]">
+    <section className="py-12 sm:py-16 bg-white border-y border-[#e5e5e5]">
       <Container>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
           {socialProofStats.map((stat, i) => (
@@ -54,7 +54,7 @@ export function SocialProof() {
               className="text-center"
             >
               <Counter value={stat.value} suffix={stat.suffix} decimal={"decimal" in stat && stat.decimal} />
-              <p className="text-[#a1a1aa] text-xs sm:text-sm mt-2 uppercase tracking-[0.15em]">{stat.label}</p>
+              <p className="text-[#666666] text-xs sm:text-sm mt-2 uppercase tracking-[0.15em]">{stat.label}</p>
             </motion.div>
           ))}
         </div>

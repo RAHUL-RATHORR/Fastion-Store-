@@ -11,13 +11,13 @@ const trending = products.filter((p) => "badge" in p && p.badge).slice(0, 6);
 
 export function TrendingNow() {
   return (
-    <section className="section-padding bg-[#050505] overflow-hidden">
+    <section className="section-padding bg-white overflow-hidden">
       <Container>
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl md:text-4xl text-white mb-8 sm:mb-10"
+          className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl md:text-4xl text-[#111111] mb-8 sm:mb-10"
         >
           Trending Now
         </motion.h2>
@@ -40,8 +40,8 @@ export function TrendingNow() {
                     </span>
                   ) : null}
                 </div>
-                <p className="text-xs sm:text-sm text-white truncate">{product.name}</p>
-                <p className="text-xs text-[#c0c0c0] mt-1">{formatPrice(product.price)}</p>
+                <p className="text-xs sm:text-sm text-[#111111] truncate">{product.name}</p>
+                <p className="text-xs text-[#666666] mt-1">{formatPrice(product.price)}</p>
               </Link>
             </motion.div>
           ))}

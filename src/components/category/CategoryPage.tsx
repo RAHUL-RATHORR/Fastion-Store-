@@ -17,7 +17,7 @@ export function CategoryPage({ slug, title, image }: CategoryPageProps) {
   const items = getProductsByCategory(slug);
 
   return (
-    <div className="min-h-screen-safe bg-[#050505] pb-16">
+    <div className="min-h-screen-safe bg-white pb-16">
       <div className="relative h-[220px] sm:h-[280px] md:h-[320px] overflow-hidden border-b border-[rgba(192,192,192,0.08)]">
         <Image
           src={image}

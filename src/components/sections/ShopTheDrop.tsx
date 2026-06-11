@@ -36,14 +36,13 @@ export function ShopTheDrop() {
   ];
 
   return (
-    <section className="section-padding bg-[#0d0d0d] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(192,192,192,0.04)_0%,transparent_70%)]" />
+    <section className="section-padding bg-white relative overflow-hidden">
       <Container className="relative text-center">
         <motion.span
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-[10px] uppercase tracking-[0.35em] text-[#c0c0c0] block mb-4"
+          className="text-[10px] uppercase tracking-[0.35em] text-[#666666] block mb-4"
         >
           Limited Drop
         </motion.span>
@@ -51,22 +50,22 @@ export function ShopTheDrop() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl text-white mb-8 sm:mb-10"
+          className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl text-[#111111] mb-8 sm:mb-10"
         >
           Shop The Drop
         </motion.h2>
         <div className="flex justify-center gap-3 sm:gap-6 mb-10">
           {mounted &&
             blocks.map((b) => (
-            <div key={b.label} className="glass px-4 sm:px-6 py-3 sm:py-4 min-w-[64px] sm:min-w-[80px]">
-              <span className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-white block">
+            <div key={b.label} className="bg-[#f7f7f7] border border-[#e5e5e5] px-4 sm:px-6 py-3 sm:py-4 min-w-[64px] sm:min-w-[80px]">
+              <span className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-[#111111] block">
                 {String(b.value).padStart(2, "0")}
               </span>
-              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-[#a1a1aa]">{b.label}</span>
+              <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-[#666666]">{b.label}</span>
             </div>
             ))}
         </div>
-        <Button variant="primary" href="#new-arrivals">Shop Before It&apos;s Gone</Button>
+        <Button variant="primary" href="#new-arrivals" className="bg-[#111111] text-white hover:bg-[#333333]">Shop Before It&apos;s Gone</Button>
       </Container>
     </section>
   );

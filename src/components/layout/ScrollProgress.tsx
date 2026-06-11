@@ -35,10 +35,10 @@ export function PageLoader() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="fixed inset-0 z-[200] bg-[#050505] flex flex-col items-center justify-center"
+          className="fixed inset-0 z-[200] bg-white flex flex-col items-center justify-center"
         >
           <motion.span
-            className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl tracking-[0.3em] text-white block mb-4"
+            className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl tracking-[0.3em] text-[#111111] block mb-4"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}

@@ -7,12 +7,14 @@ import { instagramPosts } from "@/lib/data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Container } from "@/components/ui/Container";
 
+const INSTAGRAM_URL = "https://www.instagram.com/gilzod_official/";
+
 export function InstagramFeed() {
   return (
-    <section className="section-padding bg-[#0d0d0d]">
+    <section className="section-padding-compact bg-white">
       <Container>
         <SectionHeader
-          label="@gilzod"
+          compact
           title="Join The Movement"
           description="Follow our journey and be part of the Gilzod community."
         />
@@ -21,7 +23,7 @@ export function InstagramFeed() {
           {instagramPosts.map((post, index) => (
             <motion.a
               key={post.id}
-              href="https://instagram.com"
+              href={INSTAGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -58,16 +60,16 @@ export function InstagramFeed() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="flex justify-center mt-8 sm:mt-10 md:mt-12"
+          className="flex justify-center mt-5 sm:mt-6"
         >
           <a
-            href="https://instagram.com/gilzod"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#c0c0c0] hover:text-white transition-colors duration-300 min-h-[44px]"
+            className="inline-flex items-center gap-2 sm:gap-3 text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#666666] hover:text-[#111111] transition-colors duration-300 min-h-[44px]"
           >
             <Instagram className="w-4 h-4" strokeWidth={1.5} />
-            Follow @gilzod
+            Follow @gilzod_official
           </a>
         </motion.div>
       </Container>

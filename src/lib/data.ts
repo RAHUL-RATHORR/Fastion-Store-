@@ -502,9 +502,91 @@ export const footerLinks = {
     { label: "Size Guide", href: "#" },
   ],
   social: [
-    { label: "Instagram", href: "https://instagram.com" },
+    { label: "Instagram", href: "https://www.instagram.com/gilzod_official/" },
     { label: "Twitter", href: "https://twitter.com" },
     { label: "TikTok", href: "https://tiktok.com" },
     { label: "YouTube", href: "https://youtube.com" },
+  ],
+} as const;
+
+export const seoFooterLinkColumns = [
+  {
+    title: "Top Categories",
+    links: [
+      { label: "Shirts for Men", href: "/category/shirts" },
+      { label: "T-Shirts for Men", href: "/category/t-shirts" },
+      { label: "Formal Pants", href: "/category/pants" },
+      { label: "Lower & Cargos", href: "/category/lower" },
+      { label: "New Arrivals", href: "#new-arrivals" },
+      { label: "Best Sellers", href: "#new-arrivals" },
+    ],
+  },
+  {
+    title: "Popular Searches",
+    links: [
+      { label: "White shirt for men", href: "/category/shirts" },
+      { label: "Oversized t-shirt", href: "/category/t-shirts" },
+      { label: "Slim fit trousers", href: "/category/pants" },
+      { label: "Casual lower wear", href: "/category/lower" },
+      { label: "Office wear shirts", href: "/category/shirts" },
+      { label: "Weekend casual tees", href: "/category/t-shirts" },
+    ],
+  },
+  {
+    title: "Shop By Style",
+    links: [
+      { label: "Everyday Essentials", href: "#new-arrivals" },
+      { label: "Smart Casual", href: "/category/shirts" },
+      { label: "Street Style", href: "/category/t-shirts" },
+      { label: "Workwear Pants", href: "/category/pants" },
+      { label: "Relaxed Fit Lower", href: "/category/lower" },
+      { label: "Curated Looks", href: "#collection" },
+    ],
+  },
+] as const;
+
+export const whyShopGilzodPoints = [
+  "Premium fabrics built for all-day comfort",
+  "Modern fits designed for the Indian man",
+  "Trend-driven styles updated every season",
+  "Easy returns and hassle-free exchanges",
+  "Secure checkout with multiple payment options",
+  "Pan-India delivery with pincode check",
+] as const;
+
+export const footerSocialIcons = [
+  { label: "Facebook", href: "https://facebook.com", color: "#1877F2" },
+  { label: "Instagram", href: "https://www.instagram.com/gilzod_official/", color: "#E4405F" },
+  { label: "Snapchat", href: "https://snapchat.com", color: "#FFFC00" },
+  { label: "X", href: "https://twitter.com", color: "#111111" },
+] as const;
+
+export const footerPaymentPartners = [
+  "PhonePe",
+  "GPay",
+  "Amazon Pay",
+  "Mastercard",
+  "MobiKwik",
+  "Paytm",
+  "Cash on Delivery",
+] as const;
+
+export const footerShippingPartners = [
+  "DTDC",
+  "Delhivery",
+  "Ecom Express",
+  "XpressBees",
+] as const;
+
+export const whoWeAreContent = {
+  intro:
+    "GILZOD is a premium menswear brand built for ambitious men who refuse ordinary. From sharp shirts and effortless tees to tailored pants and versatile lower wear, every piece is designed to help you rule beyond limits — at work, on weekends, and everywhere in between.",
+  links: [
+    { label: "About Us", href: "#about" },
+    { label: "Privacy Policy", href: "#" },
+    { label: "Terms & Conditions", href: "#" },
+    { label: "Return & Exchange Policy", href: "#" },
+    { label: "Contact Us", href: "#contact" },
+    { label: "Track Order", href: "/track-order" },
   ],
 } as const;

@@ -15,17 +15,17 @@ const iconMap = {
 
 export function WhyGilzod() {
   return (
-    <section id="about" className="section-padding bg-[#050505] relative">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(192,192,192,0.03)_0%,transparent_70%)]" />
+    <section id="about" className="section-padding-compact bg-white relative">
 
       <Container className="relative">
         <SectionHeader
+          compact
           label="Philosophy"
           title="Why Gilzod"
           description="Every piece is a statement of intent — designed for men who demand excellence."
         />
 
-        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+        <div className="grid grid-cols-1 min-[480px]:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
           {whyGilzod.map((item, index) => {
             const Icon = iconMap[item.icon];
             return (
@@ -39,18 +39,18 @@ export function WhyGilzod() {
                   delay: index * 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="group glass p-6 sm:p-8 md:p-10 text-center md:hover:silver-glow transition-all duration-500"
+                className="group bg-[#f9f9f9] border border-[#e5e5e5] p-5 sm:p-6 text-center hover:shadow-md transition-all duration-500"
               >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-4 sm:mb-6 flex items-center justify-center rounded-full border border-[rgba(192,192,192,0.15)] group-hover:border-[rgba(192,192,192,0.4)] transition-colors duration-500">
+                <div className="w-11 h-11 sm:w-12 sm:h-12 mx-auto mb-3 sm:mb-4 flex items-center justify-center rounded-full border border-[#d4d4d4] group-hover:border-[#111111] transition-colors duration-500">
                   <Icon
-                    className="w-5 h-5 sm:w-6 sm:h-6 text-[#c0c0c0] group-hover:text-[#e5e5e5] transition-colors duration-500"
+                    className="w-5 h-5 sm:w-6 sm:h-6 text-[#666666] group-hover:text-[#111111] transition-colors duration-500"
                     strokeWidth={1.2}
                   />
                 </div>
-                <h3 className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl text-white mb-2 sm:mb-3">
+                <h3 className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl text-[#111111] mb-2 sm:mb-3">
                   {item.title}
                 </h3>
-                <p className="text-[#a1a1aa] text-sm leading-relaxed">
+                <p className="text-[#666666] text-sm leading-relaxed">
                   {item.description}
                 </p>
               </motion.div>
