@@ -7,7 +7,6 @@ import { CartDrawer } from "@/components/layout/CartDrawer";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
 import { CursorGlow } from "@/components/layout/CursorGlow";
 import { MobileBottomNav } from "@/components/layout/MobileBottomNav";
-import { StickyShopBar } from "@/components/layout/StickyShopBar";
 import { SizeGuideModal } from "@/components/ui/SizeGuideModal";
 import { SectionDivider } from "@/components/ui/SectionDivider";
 import { Hero } from "@/components/sections/Hero";
@@ -51,7 +50,6 @@ export default function Home() {
       </PageTransition>
       <FooterSeoContent />
       <Footer />
-      <StickyShopBar />
       <MobileBottomNav />
     </>
   );

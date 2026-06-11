@@ -8,13 +8,22 @@ export function FooterSeoContent() {
     <section className="bg-[#faf9f7] border-t border-[#ece8e3]">
       <Container className="py-8 sm:py-10 md:py-12">
         {/* Link columns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 pb-8 sm:pb-10 border-b border-[#e8e4df]">
-          {seoFooterLinkColumns.map((column) => (
-            <div key={column.title}>
-              <h3 className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#111111] mb-3">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-5 sm:gap-6 lg:gap-8 pb-8 sm:pb-10 border-b border-[#e8e4df]">
+          {seoFooterLinkColumns.map((column, index) => (
+            <div
+              key={column.title}
+              className={index === 2 ? "col-span-2 lg:col-span-1" : undefined}
+            >
+              <h3 className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] text-[#111111] mb-2 sm:mb-3">
                 {column.title}
               </h3>
-              <ul className="space-y-1.5">
+              <ul
+                className={
+                  index === 2
+                    ? "grid grid-cols-2 lg:grid-cols-1 gap-x-4 gap-y-1.5 lg:space-y-1.5"
+                    : "space-y-1 sm:space-y-1.5"
+                }
+              >
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
