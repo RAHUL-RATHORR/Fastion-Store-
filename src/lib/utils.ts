@@ -9,3 +9,11 @@ export function formatPrice(price: number) {
     minimumFractionDigits: 0,
   }).format(price);
 }
+
+export function formatInr(price: number) {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(Math.round(price * 83));
+}

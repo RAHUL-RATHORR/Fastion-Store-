@@ -7,11 +7,11 @@ type ButtonVariant = "primary" | "secondary" | "ghost";
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "bg-[#e5e5e5] text-[#050505] hover:bg-white border border-transparent hover:shadow-[0_0_30px_rgba(229,229,229,0.3)]",
+    "bg-[#111111] text-white hover:bg-[#333333] border border-transparent hover:shadow-[0_4px_14px_rgba(0,0,0,0.15)]",
   secondary:
-    "bg-transparent text-[#050505] border border-[rgba(192,192,192,0.3)] hover:border-[#c0c0c0] hover:bg-[rgba(192,192,192,0.05)]",
+    "bg-transparent text-[#111111] border border-[#e5e5e5] hover:border-[#111111] hover:bg-[#fafafa]",
   ghost:
-    "bg-transparent text-[#525252] border border-transparent hover:text-[#050505] hover:bg-[rgba(255,255,255,0.05)]",
+    "bg-transparent text-[#666666] border border-transparent hover:text-[#111111] hover:bg-[#f5f5f5]",
 };
 
 const baseStyles =

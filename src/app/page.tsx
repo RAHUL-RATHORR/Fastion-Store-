@@ -15,6 +15,7 @@ import { NewAndPopular } from "@/components/sections/NewAndPopular";
 import { WhyGilzod } from "@/components/sections/WhyGilzod";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { InstagramFeed } from "@/components/sections/InstagramFeed";
+import { BrandStory } from "@/components/sections/BrandStory";
 import { FooterSeoContent } from "@/components/sections/FooterSeoContent";
 
 export default function Home() {
@@ -37,6 +38,7 @@ export default function Home() {
           <WhyGilzod />
           <ReviewsSection />
           <InstagramFeed />
+          <BrandStory />
         </main>
       </PageTransition>
       <FooterSeoContent />

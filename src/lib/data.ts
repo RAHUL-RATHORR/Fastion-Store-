@@ -66,6 +66,25 @@ export const heroSlides = [
   },
 ] as const;
 
+export const heroBrand = {
+  headline: "RULE BEYOND LIMITS",
+  subline: "Premium Menswear Designed For Everyday Confidence",
+  ctaLabel: "SHOP NOW",
+  ctaHref: "#collection",
+} as const;
+
+export const brandStory = {
+  eyebrow: "Brand Story",
+  title: "Gilzod is more than clothing.",
+  intro: "Built for individuals who refuse limits and choose confidence every day.",
+  paragraphs: [
+    "We started with a simple belief — the way you dress should match the way you live. Bold, intentional, and never ordinary.",
+    "Every GILZOD piece is designed with premium fabrics, clean fits, and details that hold up season after season. From everyday essentials to statement pieces, our collection is made for men who lead, create, and move forward.",
+    "This isn't fast fashion. It's menswear built for real life — workdays, weekends, and everything in between.",
+  ],
+  tagline: "RULE BEYOND LIMITS.",
+} as const;
+
 export const navLinks = [
   { label: "Home", href: "#home" },
   { label: "Collection", href: "#collection" },
@@ -238,9 +257,11 @@ export const shopYourSizeBanner = {
 
 export const featuredCategoryGrid = [
   { id: "shirts", label: "Shirts", image: "/images/categories/cat-shirts.png", href: "/category/shirts" },
+  { id: "pants", label: "Trousers", image: "/images/categories/cat-trousers.png", href: "/category/pants" },
+  { id: "polos", label: "Polos", image: "/images/categories/cat-polos.png", href: "/category/shirts" },
+  { id: "denim", label: "Jeans", image: "/images/categories/cat-jeans.png", href: "/category/pants" },
+  { id: "cargos", label: "Cargos", image: "/images/categories/cat-cargos.png", href: "/category/lower" },
   { id: "t-shirts", label: "T-Shirts", image: "/images/categories/cat-tshirts.png", href: "/category/t-shirts" },
-  { id: "pants", label: "Pants", image: "/images/categories/cat-trousers.png", href: "/category/pants" },
-  { id: "lower", label: "Lower", image: "/images/categories/cat-cargos.png", href: "/category/lower" },
 ] as const;
 
 export const categories = [
@@ -409,6 +430,42 @@ for (const list of Object.values(categoryCatalog)) {
 
 export const allProducts = [...catalogById.values()];
 
+const productAlternateImages = [
+  "/images/editorial/top.jpg",
+  "/images/editorial/left.jpg",
+  "/images/editorial/right.jpg",
+  "/images/editorial/bottom.jpg",
+  "/images/hero/hero-shirts.jpg",
+  "/images/hero/hero-tshirts.jpg",
+] as const;
+
+export type ProductMeta = {
+  hoverImage: string;
+  rating: number;
+  reviewCount: number;
+  onSale: boolean;
+  originalPrice?: number;
+  saleLabel?: string;
+};
+
+export function getProductMeta(product: CatalogProduct): ProductMeta {
+  const pool = productAlternateImages.filter((img) => img !== product.image);
+  const hoverImage = pool[product.id % pool.length] ?? productAlternateImages[0];
+  const rating = Math.round((4.1 + (product.id % 8) * 0.1) * 10) / 10;
+  const reviewCount = 40 + (product.id * 17) % 960;
+  const onSale = product.id % 3 === 0 || product.badge === "Bestseller";
+  const originalPrice = onSale ? Math.round(product.price * 1.28) : undefined;
+
+  return {
+    hoverImage,
+    rating,
+    reviewCount,
+    onSale,
+    originalPrice,
+    saleLabel: onSale ? "SALE" : undefined,
+  };
+}
+
 export function getCategoryBySlug(slug: string) {
   return categories.find((c) => c.id === slug);
 }
@@ -431,10 +488,10 @@ export const whyGilzod = [
     icon: "crown" as const,
   },
   {
-    title: "Luxury Comfort",
+    title: "Everyday Comfort",
     description:
-      "Engineered for all-day wear without compromising on sophistication.",
-    icon: "sparkles" as const,
+      "Soft, breathable fabrics engineered for all-day wear without compromise.",
+    icon: "comfort" as const,
   },
   {
     title: "Built To Last",

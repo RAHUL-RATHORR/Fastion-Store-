@@ -24,39 +24,39 @@ export function AccountPage() {
   };
 
   if (!isReady || !user) {
-    return <div className="min-h-screen-safe bg-[#050505]" />;
+    return <div className="min-h-screen-safe bg-white" />;
   }
 
   return (
-    <div className="min-h-screen-safe bg-[#050505] pb-16">
+    <div className="min-h-screen-safe bg-white pb-16">
       <Container className="pt-[calc(5rem+env(safe-area-inset-top))] max-w-lg">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[#a1a1aa] hover:text-white text-xs uppercase tracking-[0.15em] mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-[#666666] hover:text-[#111111] text-xs uppercase tracking-[0.15em] mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
 
-        <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-white mb-8">
+        <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-[#111111] mb-8">
           My Account
         </h1>
 
-        <div className="bg-[#0d0d0d] border border-[rgba(192,192,192,0.1)] p-6 space-y-5">
+        <div className="bg-white border border-[#e5e5e5] p-6 space-y-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
           <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-full bg-[#111111] border border-[rgba(192,192,192,0.12)] flex items-center justify-center">
-              <UserIcon className="w-6 h-6 text-[#c0c0c0]" />
+            <div className="w-14 h-14 rounded-full bg-[#f4f4f4] border border-[#e5e5e5] flex items-center justify-center">
+              <UserIcon className="w-6 h-6 text-[#666666]" />
             </div>
             <div>
-              <p className="text-white text-lg">{user.name || "GILZOD Member"}</p>
-              <p className="text-[#a1a1aa] text-sm flex items-center gap-1.5 mt-0.5">
+              <p className="text-[#111111] text-lg">{user.name || "GILZOD Member"}</p>
+              <p className="text-[#666666] text-sm flex items-center gap-1.5 mt-0.5">
                 <Mail className="w-3.5 h-3.5" />
                 {user.email}
               </p>
             </div>
           </div>
 
-          <div className="border-t border-[rgba(192,192,192,0.08)] pt-5 space-y-3">
+          <div className="border-t border-[#e5e5e5] pt-5 space-y-3">
             <Button variant="secondary" href="/track-order" className="w-full">
               Track Orders
             </Button>
@@ -65,7 +65,7 @@ export function AccountPage() {
             </Button>
             <Button
               variant="ghost"
-              className="w-full text-red-400 hover:text-red-300"
+              className="w-full text-red-500 hover:text-red-600"
               onClick={handleLogout}
             >
               <LogOut className="w-4 h-4 mr-2" />

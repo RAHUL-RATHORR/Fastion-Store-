@@ -12,10 +12,8 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
-const inputClass =
-  "w-full bg-[#111111] border border-[rgba(192,192,192,0.12)] px-4 py-3 text-sm text-white placeholder:text-[#71717a] focus:outline-none focus:border-[#c0c0c0] transition-colors";
-
-const labelClass = "block text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-2";
+const inputClass = "form-input";
+const labelClass = "form-label";
 
 type PaymentMethod = "upi" | "card" | "netbanking" | "wallet" | "cod";
 
@@ -106,10 +104,10 @@ export function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen-safe bg-[#050505] pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
+      <div className="min-h-screen-safe bg-white pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
         <Container className="max-w-lg text-center py-16 sm:py-24">
           <ShoppingBag className="w-12 h-12 text-[#a1a1aa] mx-auto mb-4" strokeWidth={1} />
-          <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-white mb-3">
+          <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[#111111] mb-3">
             Your bag is empty
           </h1>
           <p className="text-[#a1a1aa] text-sm mb-8">Add items to your bag before checking out.</p>
@@ -122,32 +120,93 @@ export function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen-safe bg-[#050505] pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
-      <header className="border-b border-[rgba(192,192,192,0.08)] bg-[#0d0d0d]/80 backdrop-blur-md sticky top-0 z-40 pt-[env(safe-area-inset-top)]">
-        <Container className="py-4 flex items-center justify-between gap-4">
+    <div className="min-h-screen-safe bg-white pt-[calc(5rem+env(safe-area-inset-top))] pb-[calc(5.5rem+env(safe-area-inset-bottom))] lg:pb-16">
+      <header className="border-b border-[#e5e5e5] bg-white/95 backdrop-blur-md sticky top-0 z-40 pt-[env(safe-area-inset-top)]">
+        <Container className="py-3 sm:py-4 flex items-center justify-between gap-2 sm:gap-4">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-[#a1a1aa] hover:text-white text-xs uppercase tracking-[0.15em] transition-colors"
+            className="inline-flex items-center gap-1.5 sm:gap-2 text-[#666666] hover:text-[#111111] text-[10px] sm:text-xs uppercase tracking-[0.15em] transition-colors min-h-[44px]"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back
+            <span className="hidden min-[375px]:inline">Back</span>
           </Link>
-          <h1 className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl text-white tracking-wide">
+          <h1 className="font-[family-name:var(--font-playfair)] text-base sm:text-xl text-[#111111] tracking-wide">
             Checkout
           </h1>
-          <div className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.15em] text-[#a1a1aa]">
+          <div className="inline-flex items-center gap-1 sm:gap-1.5 text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-[#888888] min-h-[44px]">
             <Lock className="w-3.5 h-3.5" />
             Secure
           </div>
         </Container>
       </header>
 
-      <Container className="py-8 sm:py-12">
-        <form onSubmit={handleSubmit}>
-          <div className="grid lg:grid-cols-[1fr_380px] gap-10 lg:gap-14 items-start">
-            <div className="space-y-8 sm:space-y-10">
+      <Container className="py-6 sm:py-12">
+        <form id="checkout-form" onSubmit={handleSubmit}>
+          <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-6 sm:gap-10 lg:gap-14 items-start">
+            <aside className="w-full lg:sticky lg:top-28 order-1 lg:order-2">
+              <div className="glass p-4 sm:p-6 space-y-4 sm:space-y-5">
+                <h2 className="font-[family-name:var(--font-playfair)] text-base sm:text-lg text-[#111111]">
+                  Order Summary
+                </h2>
+
+                <ul className="space-y-3 sm:space-y-4 max-h-[220px] sm:max-h-[320px] overflow-y-auto pr-1">
+                  {items.map((item) => (
+                    <li key={`${item.id}-${item.size}`} className="flex gap-3">
+                      <div className="relative w-14 h-[4.5rem] sm:w-16 sm:h-20 shrink-0 overflow-hidden bg-[#f4f4f4]">
+                        <Image
+                          src={item.image}
+                          alt={item.name}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-[#111111] truncate">{item.name}</p>
+                        <p className="text-xs text-[#666666] mt-0.5">
+                          Size {item.size} · Qty {item.quantity}
+                        </p>
+                        <p className="text-sm text-[#333333] mt-1">
+                          {formatPrice(item.price * item.quantity)}
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="border-t border-[#e5e5e5] pt-4 space-y-2.5 text-sm">
+                  <div className="flex justify-between text-[#666666]">
+                    <span>Subtotal</span>
+                    <span>{formatPrice(subtotal)}</span>
+                  </div>
+                  <div className="flex justify-between text-[#666666]">
+                    <span>Shipping</span>
+                    <span>{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
+                  </div>
+                  <div className="flex justify-between text-[#666666]">
+                    <span>Estimated Tax</span>
+                    <span>{formatPrice(tax)}</span>
+                  </div>
+                  <div className="flex justify-between text-[#111111] font-medium pt-2 border-t border-[#e5e5e5]">
+                    <span>Total</span>
+                    <span>{formatPrice(total)}</span>
+                  </div>
+                </div>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  className="w-full hidden lg:inline-flex"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Processing..." : "Place Order"}
+                </Button>
+              </div>
+            </aside>
+
+            <div className="w-full space-y-6 sm:space-y-10 order-2 lg:order-1">
               <section>
-                <h2 className="font-[family-name:var(--font-playfair)] text-xl text-white mb-5">
+                <h2 className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl text-[#111111] mb-4 sm:mb-5">
                   Contact
                 </h2>
                 <div className="space-y-4">
@@ -182,7 +241,7 @@ export function CheckoutPage() {
               </section>
 
               <section>
-                <h2 className="font-[family-name:var(--font-playfair)] text-xl text-white mb-5">
+                <h2 className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl text-[#111111] mb-4 sm:mb-5">
                   Shipping Address
                 </h2>
                 <div className="space-y-4">
@@ -218,7 +277,7 @@ export function CheckoutPage() {
                     </label>
                     <input id="apartment" name="apartment" className={inputClass} />
                   </div>
-                  <div className="grid sm:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label htmlFor="city" className={labelClass}>
                         City
@@ -242,25 +301,25 @@ export function CheckoutPage() {
               </section>
 
               <section>
-                <h2 className="font-[family-name:var(--font-playfair)] text-xl text-white mb-5">
+                <h2 className="font-[family-name:var(--font-playfair)] text-lg sm:text-xl text-[#111111] mb-4 sm:mb-5">
                   Payment
                 </h2>
-                <div className="glass p-5 sm:p-6 space-y-5">
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                <div className="glass p-4 sm:p-6 space-y-5">
+                  <div className="flex gap-2 overflow-x-auto pb-1 sm:grid sm:grid-cols-3 sm:overflow-visible sm:pb-0">
                     {paymentMethods.map((method) => (
                       <button
                         key={method.id}
                         type="button"
                         onClick={() => setPaymentMethod(method.id)}
                         className={cn(
-                          "text-left p-3 border transition-all duration-300",
+                          "shrink-0 w-[42%] min-[375px]:w-[38%] sm:w-auto text-left p-3 border transition-all duration-300 min-h-[56px]",
                           paymentMethod === method.id
-                            ? "border-[#c0c0c0] bg-[rgba(192,192,192,0.08)]"
-                            : "border-[rgba(192,192,192,0.12)] hover:border-[rgba(192,192,192,0.25)]"
+                            ? "border-[#111111] bg-[#f5f5f5]"
+                            : "border-[#e5e5e5] hover:border-[#cccccc]"
                         )}
                       >
-                        <p className="text-xs text-white font-medium">{method.label}</p>
-                        <p className="text-[10px] text-[#71717a] mt-0.5">{method.desc}</p>
+                        <p className="text-xs text-[#111111] font-medium">{method.label}</p>
+                        <p className="text-[10px] text-[#888888] mt-0.5">{method.desc}</p>
                       </button>
                     ))}
                   </div>
@@ -280,8 +339,8 @@ export function CheckoutPage() {
                               className={cn(
                                 "px-3 py-2.5 text-xs border transition-colors",
                                 selectedUpiApp === app
-                                  ? "border-[#c0c0c0] text-white bg-[rgba(192,192,192,0.08)]"
-                                  : "border-[rgba(192,192,192,0.12)] text-[#a1a1aa] hover:text-white"
+                                  ? "border-[#111111] text-[#111111] bg-[#f5f5f5]"
+                                  : "border-[#e5e5e5] text-[#666666] hover:text-[#111111] hover:border-[#cccccc]"
                               )}
                             >
                               {app}
@@ -400,9 +459,9 @@ export function CheckoutPage() {
                   )}
 
                   {paymentMethod === "cod" && (
-                    <div className="p-4 border border-[rgba(192,192,192,0.12)] bg-[#111111]/50">
-                      <p className="text-sm text-white mb-1">Pay when your order arrives</p>
-                      <p className="text-xs text-[#a1a1aa] leading-relaxed">
+                    <div className="p-4 border border-[#e5e5e5] bg-[#fafafa]">
+                      <p className="text-sm text-[#111111] mb-1">Pay when your order arrives</p>
+                      <p className="text-xs text-[#666666] leading-relaxed">
                         Cash on Delivery is available for orders under {formatPrice(500)}. A small
                         handling fee of {formatPrice(49)} may apply.
                       </p>
@@ -414,80 +473,28 @@ export function CheckoutPage() {
                   </p>
                 </div>
               </section>
-
-              <Button
-                type="submit"
-                variant="primary"
-                className="w-full lg:hidden"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? "Processing..." : `Place Order — ${formatPrice(total)}`}
-              </Button>
             </div>
-
-            <aside className="lg:sticky lg:top-28">
-              <div className="glass p-5 sm:p-6 space-y-5">
-                <h2 className="font-[family-name:var(--font-playfair)] text-lg text-white">
-                  Order Summary
-                </h2>
-
-                <ul className="space-y-4 max-h-[320px] overflow-y-auto pr-1">
-                  {items.map((item) => (
-                    <li key={`${item.id}-${item.size}`} className="flex gap-3">
-                      <div className="relative w-16 h-20 shrink-0 overflow-hidden bg-[#111111]">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                          sizes="64px"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm text-white truncate">{item.name}</p>
-                        <p className="text-xs text-[#a1a1aa] mt-0.5">
-                          Size {item.size} · Qty {item.quantity}
-                        </p>
-                        <p className="text-sm text-[#c0c0c0] mt-1">
-                          {formatPrice(item.price * item.quantity)}
-                        </p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="border-t border-[rgba(192,192,192,0.08)] pt-4 space-y-2.5 text-sm">
-                  <div className="flex justify-between text-[#a1a1aa]">
-                    <span>Subtotal</span>
-                    <span>{formatPrice(subtotal)}</span>
-                  </div>
-                  <div className="flex justify-between text-[#a1a1aa]">
-                    <span>Shipping</span>
-                    <span>{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
-                  </div>
-                  <div className="flex justify-between text-[#a1a1aa]">
-                    <span>Estimated Tax</span>
-                    <span>{formatPrice(tax)}</span>
-                  </div>
-                  <div className="flex justify-between text-white font-medium pt-2 border-t border-[rgba(192,192,192,0.08)]">
-                    <span>Total</span>
-                    <span>{formatPrice(total)}</span>
-                  </div>
-                </div>
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full hidden lg:inline-flex"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Processing..." : "Place Order"}
-                </Button>
-              </div>
-            </aside>
           </div>
         </form>
       </Container>
+
+      <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white border-t border-[#e5e5e5] px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+        <div className="flex items-center gap-4 max-w-lg mx-auto">
+          <div className="shrink-0">
+            <p className="text-[10px] uppercase tracking-wider text-[#888888]">Total</p>
+            <p className="text-lg font-bold text-[#111111]">{formatPrice(total)}</p>
+          </div>
+          <Button
+            type="submit"
+            form="checkout-form"
+            variant="primary"
+            className="flex-1 min-h-[48px]"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? "Processing..." : "Place Order"}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -16,7 +16,7 @@ export function SizeGuideModal() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-[#050505]/80 backdrop-blur-sm z-[85]"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[85]"
             onClick={closeSizeGuide}
           />
           <motion.div
@@ -26,15 +26,15 @@ export function SizeGuideModal() {
             className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[86] w-[calc(100%-2rem)] max-w-lg glass luxury-shadow p-6 sm:p-8"
           >
             <div className="flex justify-between items-center mb-6">
-              <h3 className="font-[family-name:var(--font-playfair)] text-xl text-white">Size Guide</h3>
-              <button onClick={closeSizeGuide} aria-label="Close" className="text-[#a1a1aa] hover:text-white">
+              <h3 className="font-[family-name:var(--font-playfair)] text-xl text-[#111111]">Size Guide</h3>
+              <button onClick={closeSizeGuide} aria-label="Close" className="text-[#666666] hover:text-[#111111]">
                 <X className="w-5 h-5" />
               </button>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-[#a1a1aa] text-left border-b border-[rgba(192,192,192,0.1)]">
+                  <tr className="text-[#888888] text-left border-b border-[#e5e5e5]">
                     <th className="pb-3 pr-4">Size</th>
                     <th className="pb-3 pr-4">Chest</th>
                     <th className="pb-3 pr-4">Waist</th>
@@ -43,17 +43,17 @@ export function SizeGuideModal() {
                 </thead>
                 <tbody>
                   {sizeGuide.map((row) => (
-                    <tr key={row.size} className="border-b border-[rgba(192,192,192,0.06)] text-white">
+                    <tr key={row.size} className="border-b border-[#f0f0f0] text-[#111111]">
                       <td className="py-3 pr-4 font-medium">{row.size}</td>
-                      <td className="py-3 pr-4 text-[#c0c0c0]">{row.chest}&quot;</td>
-                      <td className="py-3 pr-4 text-[#c0c0c0]">{row.waist}&quot;</td>
-                      <td className="py-3 text-[#c0c0c0]">{row.length}&quot;</td>
+                      <td className="py-3 pr-4 text-[#666666]">{row.chest}&quot;</td>
+                      <td className="py-3 pr-4 text-[#666666]">{row.waist}&quot;</td>
+                      <td className="py-3 text-[#666666]">{row.length}&quot;</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p className="text-[#a1a1aa] text-xs mt-4">All measurements in inches. For help, contact support.</p>
+            <p className="text-[#888888] text-xs mt-4">All measurements in inches. For help, contact support.</p>
           </motion.div>
         </>
       )}

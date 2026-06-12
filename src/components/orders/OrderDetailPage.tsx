@@ -21,19 +21,19 @@ export function OrderDetailPage({ orderId }: OrderDetailPageProps) {
   }, [orderId]);
 
   if (!ready) {
-    return <div className="min-h-screen-safe bg-[#050505]" />;
+    return <div className="min-h-screen-safe bg-white" />;
   }
 
   if (!order) {
     return (
-      <div className="min-h-screen-safe bg-[#050505] pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
+      <div className="min-h-screen-safe bg-white pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
         <Container className="max-w-lg text-center py-16 sm:py-24">
-          <Package className="w-12 h-12 text-[#a1a1aa] mx-auto mb-4" strokeWidth={1} />
-          <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-white mb-3">
+          <Package className="w-12 h-12 text-[#888888] mx-auto mb-4" strokeWidth={1} />
+          <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[#111111] mb-3">
             Order not found
           </h1>
-          <p className="text-[#a1a1aa] text-sm mb-8">
-            We couldn&apos;t find order <span className="text-white">{orderId}</span>. Please check
+          <p className="text-[#666666] text-sm mb-8">
+            We couldn&apos;t find order <span className="text-[#111111]">{orderId}</span>. Please check
             the Order ID and try again.
           </p>
           <Button variant="primary" href="/track-order">

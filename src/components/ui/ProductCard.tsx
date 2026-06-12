@@ -4,12 +4,10 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Heart, ShoppingBag, Ruler } from "lucide-react";
-import { formatPrice } from "@/lib/utils";
-import { useCart } from "@/context/CartContext";
+import { Heart, Star, Eye } from "lucide-react";
+import { getProductMeta, type CatalogProduct } from "@/lib/data";
+import { formatInr, cn } from "@/lib/utils";
 import { useUI } from "@/context/UIContext";
-import { sizes } from "@/lib/data";
-import { Button } from "./Button";
 
 interface ProductCardProps {
   id: number;
@@ -17,8 +15,9 @@ interface ProductCardProps {
   price: number;
   category: string;
   image: string;
-  index: number;
+  index?: number;
   badge?: "New" | "Bestseller";
+  compact?: boolean;
 }
 
 export function ProductCard({
@@ -27,133 +26,142 @@ export function ProductCard({
   price,
   category: _category,
   image,
-  index,
+  index = 0,
   badge,
+  compact = false,
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
-  const [selectedSize, setSelectedSize] = useState("M");
-  const { addToCart } = useCart();
-  const { wishlist, toggleWishlist, openSizeGuide } = useUI();
+  const { wishlist, toggleWishlist } = useUI();
   const isWishlisted = wishlist.includes(id);
+  const meta = getProductMeta({ id, name, price, category: _category, image, badge });
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 40 }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative"
+      viewport={{ once: true, margin: "-40px" }}
+      transition={{ duration: 0.5, delay: (index % 10) * 0.04, ease: [0.22, 1, 0.36, 1] }}
+      className="group"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Link
-        href={`/product/${id}`}
-        className="relative block aspect-[3/4] overflow-hidden bg-[#111111] luxury-shadow"
-      >
-        <Image
-          src={image}
-          alt={name}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className="object-cover transition-transform duration-700 ease-out md:group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505]/80 via-transparent to-transparent opacity-60" />
+      <div className="relative aspect-[3/4] bg-[#f4f4f4] overflow-hidden mb-2.5 sm:mb-3">
+        <Link href={`/product/${id}`} className="absolute inset-0 block">
+          <Image
+            src={image}
+            alt={name}
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            className={cn(
+              "object-cover transition-all duration-500",
+              isHovered ? "opacity-0 scale-105" : "opacity-100 scale-100"
+            )}
+          />
+          <Image
+            src={meta.hoverImage}
+            alt=""
+            fill
+            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            className={cn(
+              "object-cover transition-all duration-500",
+              isHovered ? "opacity-100 scale-105" : "opacity-0 scale-100"
+            )}
+            aria-hidden
+          />
+        </Link>
 
-        {badge && (
-          <span className="absolute top-3 left-3 text-[8px] sm:text-[10px] uppercase tracking-[0.15em] bg-[#e5e5e5] text-[#050505] px-2 py-1 sm:px-3 sm:py-1.5 font-medium">
-            {badge}
-          </span>
-        )}
+        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5 z-10 pointer-events-none">
+          {meta.saleLabel && (
+            <span className="bg-[#e53935] text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-1">
+              {meta.saleLabel}
+            </span>
+          )}
+          {badge && (
+            <span className="bg-[#111111] text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-wider px-2 py-1">
+              {badge}
+            </span>
+          )}
+        </div>
 
         <button
+          type="button"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             toggleWishlist(id);
           }}
           aria-label="Wishlist"
-          className="absolute top-3 right-3 w-9 h-9 glass rounded-full flex items-center justify-center hover:silver-glow transition-all z-10"
+          className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white/95 shadow-sm flex items-center justify-center z-10 active:scale-95 transition-transform"
         >
           <Heart
-            className={`w-4 h-4 transition-colors ${isWishlisted ? "fill-[#e5e5e5] text-[#e5e5e5]" : "text-[#c0c0c0]"}`}
-            strokeWidth={1.5}
+            className={cn(
+              "w-4 h-4 transition-colors",
+              isWishlisted ? "fill-[#e53935] text-[#e53935]" : "text-[#111111]"
+            )}
+            strokeWidth={1.75}
           />
         </button>
 
-        <div className={`absolute inset-0 hidden md:flex flex-col items-center justify-end p-3 lg:p-4 pb-5 lg:pb-6 bg-[#050505]/40 backdrop-blur-[2px] transition-opacity duration-300 z-10 ${isHovered ? "opacity-100" : "opacity-0"}`}>
-          <div className="flex gap-1.5 mb-3 flex-wrap justify-center">
-            {sizes.slice(0, 5).map((size) => (
-              <button
-                key={size}
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setSelectedSize(size);
-                }}
-                className={`w-8 h-8 text-[10px] border transition-colors ${selectedSize === size ? "border-[#e5e5e5] text-white bg-[#111111]" : "border-[rgba(192,192,192,0.2)] text-[#a1a1aa] hover:border-[#c0c0c0]"}`}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            <Button
-              variant="primary"
-              className="px-3 lg:px-5 py-2 text-[9px] lg:text-[10px]"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                addToCart(id, selectedSize);
-              }}
-            >
-              <ShoppingBag className="w-3 h-3 lg:w-3.5 lg:h-3.5 mr-1.5" />
-              Add to Cart
-            </Button>
-            <Button
-              variant="secondary"
-              className="px-3 py-2 text-[9px]"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                openSizeGuide();
-              }}
-            >
-              <Ruler className="w-3 h-3 mr-1" />
-              Size
-            </Button>
-          </div>
-        </div>
+        <Link
+          href={`/product/${id}`}
+          className={cn(
+            "absolute inset-x-2 sm:inset-x-3 bottom-2 sm:bottom-3 z-10 flex items-center justify-center gap-2 min-h-[40px] py-2 bg-white/95 text-[#111111] text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-md transition-all duration-300",
+            "md:opacity-0 md:translate-y-2 md:pointer-events-none md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-hover:pointer-events-auto"
+          )}
+        >
+          <Eye className="w-3.5 h-3.5" strokeWidth={2} />
+          Quick View
+        </Link>
+      </div>
 
-        <div className="md:hidden absolute bottom-0 inset-x-0 p-2.5 flex gap-2 bg-gradient-to-t from-[#050505]/90 to-transparent pt-8 z-10">
-          <Button
-            variant="primary"
-            className="flex-1 px-2 py-2 text-[8px] sm:text-[9px] min-h-[36px]"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              addToCart(id, selectedSize);
-            }}
-          >
-            Add
-          </Button>
-          <Button
-            variant="secondary"
-            className="flex-1 px-2 py-2 text-[8px] sm:text-[9px] min-h-[36px]"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              openSizeGuide();
-            }}
-          >
-            Size
-          </Button>
+      <Link href={`/product/${id}`} className="block space-y-1">
+        <div className="flex items-center gap-1 mb-0.5">
+          <Star className="w-3 h-3 fill-[#f59e0b] text-[#f59e0b] shrink-0" />
+          <span className="text-[11px] sm:text-xs font-semibold text-[#111111]">{meta.rating}</span>
+          <span className="text-[10px] sm:text-[11px] text-[#888888]">
+            ({meta.reviewCount})
+          </span>
         </div>
-      </Link>
-
-      <Link href={`/product/${id}`} className="block mt-3 sm:mt-4 md:mt-5 space-y-0.5 sm:space-y-1 group/title">
-        <h3 className="text-xs sm:text-sm md:text-base font-light text-white tracking-wide line-clamp-2 group-hover/title:text-[#e5e5e5] transition-colors">{name}</h3>
-        <p className="text-[#c0c0c0] text-xs sm:text-sm tracking-wider">{formatPrice(price)}</p>
+        <h3
+          className={cn(
+            "text-[#111111] leading-snug line-clamp-2 group-hover:text-[#444444] transition-colors",
+            compact ? "text-[11px] sm:text-xs" : "text-xs sm:text-sm"
+          )}
+        >
+          {name}
+        </h3>
+        <div className="flex items-center gap-2 flex-wrap pt-0.5">
+          <span className="text-xs sm:text-sm font-bold text-[#111111]">{formatInr(price)}</span>
+          {meta.originalPrice && (
+            <span className="text-[11px] sm:text-xs text-[#999999] line-through">
+              {formatInr(meta.originalPrice)}
+            </span>
+          )}
+        </div>
       </Link>
     </motion.article>
+  );
+}
+
+export function ProductCardFromCatalog({
+  product,
+  index = 0,
+  compact,
+}: {
+  product: CatalogProduct;
+  index?: number;
+  compact?: boolean;
+}) {
+  return (
+    <ProductCard
+      id={product.id}
+      name={product.name}
+      price={product.price}
+      category={product.category}
+      image={product.image}
+      badge={product.badge}
+      index={index}
+      compact={compact}
+    />
   );
 }

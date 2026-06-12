@@ -8,10 +8,8 @@ import { findOrder, getAllOrders } from "@/lib/order";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
-const inputClass =
-  "w-full bg-[#111111] border border-[rgba(192,192,192,0.12)] px-4 py-3 text-sm text-white placeholder:text-[#71717a] focus:outline-none focus:border-[#c0c0c0] transition-colors";
-
-const labelClass = "block text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-2";
+const inputClass = "form-input";
+const labelClass = "form-label";
 
 export function TrackOrderSearch() {
   const router = useRouter();
@@ -34,16 +32,16 @@ export function TrackOrderSearch() {
   };
 
   return (
-    <div className="min-h-screen-safe bg-[#050505] pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
+    <div className="min-h-screen-safe bg-white pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
       <Container className="max-w-xl py-10 sm:py-14">
         <div className="text-center mb-8 sm:mb-10">
-          <div className="w-14 h-14 rounded-full bg-[#111111] border border-[rgba(192,192,192,0.12)] flex items-center justify-center mx-auto mb-4">
-            <Package className="w-6 h-6 text-[#c0c0c0]" strokeWidth={1.5} />
+          <div className="w-14 h-14 rounded-full bg-[#f4f4f4] border border-[#e5e5e5] flex items-center justify-center mx-auto mb-4">
+            <Package className="w-6 h-6 text-[#666666]" strokeWidth={1.5} />
           </div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-white mb-2">
+          <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-[#111111] mb-2">
             Track Your Order
           </h1>
-          <p className="text-[#a1a1aa] text-sm">
+          <p className="text-[#666666] text-sm">
             Enter your Order ID and email to see live delivery status.
           </p>
         </div>
@@ -78,7 +76,7 @@ export function TrackOrderSearch() {
           </div>
 
           {error && (
-            <p className="text-xs text-red-400 bg-red-400/10 border border-red-400/20 px-3 py-2">
+            <p className="text-xs text-red-600 bg-red-50 border border-red-200 px-3 py-2">
               {error}
             </p>
           )}
@@ -90,7 +88,7 @@ export function TrackOrderSearch() {
 
         {recentOrders.length > 0 && (
           <div className="mt-8">
-            <p className="text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-3">
+            <p className="text-[10px] uppercase tracking-[0.18em] text-[#888888] mb-3">
               Recent Orders
             </p>
             <ul className="space-y-2">
@@ -98,10 +96,10 @@ export function TrackOrderSearch() {
                 <li key={order.orderId}>
                   <Link
                     href={`/orders/${order.orderId}`}
-                    className="flex items-center justify-between glass px-4 py-3 hover:border-[rgba(192,192,192,0.2)] transition-colors"
+                    className="flex items-center justify-between glass px-4 py-3 hover:border-[#cccccc] transition-colors"
                   >
-                    <span className="text-sm text-white">{order.orderId}</span>
-                    <span className="text-xs text-[#a1a1aa]">
+                    <span className="text-sm text-[#111111]">{order.orderId}</span>
+                    <span className="text-xs text-[#666666]">
                       {new Date(order.placedAt).toLocaleDateString("en-IN")}
                     </span>
                   </Link>

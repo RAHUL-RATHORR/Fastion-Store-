@@ -8,7 +8,7 @@ export function ShopYourSizeBanner() {
 
   return (
     <section className="bg-white py-4 sm:py-5 md:py-6">
-      <h2 className="text-center text-xs sm:text-sm font-bold uppercase tracking-[0.15em] text-[#111] mb-3 sm:mb-4 px-4">
+      <h2 className="text-center text-sm sm:text-base font-bold uppercase tracking-[0.15em] text-[#111] mb-5 sm:mb-6 px-4">
         {heading}
       </h2>
 

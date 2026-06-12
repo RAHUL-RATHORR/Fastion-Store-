@@ -18,7 +18,7 @@ export function CategoryPage({ slug, title, image }: CategoryPageProps) {
 
   return (
     <div className="min-h-screen-safe bg-white pb-16">
-      <div className="relative h-[220px] sm:h-[280px] md:h-[320px] overflow-hidden border-b border-[rgba(192,192,192,0.08)]">
+      <div className="relative h-[220px] sm:h-[280px] md:h-[320px] overflow-hidden border-b border-[#e5e5e5]">
         <Image
           src={image}
           alt={title}
@@ -27,20 +27,20 @@ export function CategoryPage({ slug, title, image }: CategoryPageProps) {
           sizes="100vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/60 to-[#050505]/30" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
         <Container className="relative h-full flex flex-col justify-end pb-8 sm:pb-10 pt-[calc(5rem+env(safe-area-inset-top))]">
           <Link
             href="/#collection"
-            className="inline-flex items-center gap-2 text-[#a1a1aa] hover:text-white text-xs uppercase tracking-[0.15em] mb-4 transition-colors w-fit"
+            className="inline-flex items-center gap-2 text-white/90 hover:text-white text-xs uppercase tracking-[0.15em] mb-4 transition-colors w-fit"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Categories
           </Link>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-[#a1a1aa] mb-2">Category</p>
+          <p className="text-[10px] uppercase tracking-[0.2em] text-white/80 mb-2">Category</p>
           <h1 className="font-[family-name:var(--font-playfair)] text-3xl sm:text-4xl md:text-5xl text-white">
             {title}
           </h1>
-          <p className="text-[#a1a1aa] text-sm mt-2">{items.length} products</p>
+          <p className="text-white/80 text-sm mt-2">{items.length} products</p>
         </Container>
       </div>
 

@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Heart, Loader2 } from "lucide-react";
-import { allProducts, type CatalogProduct } from "@/lib/data";
+import { Loader2 } from "lucide-react";
+import { allProducts } from "@/lib/data";
 import { cn } from "@/lib/utils";
-import { useUI } from "@/context/UIContext";
+import { ProductCardFromCatalog } from "@/components/ui/ProductCard";
 
 const filters = [
   { id: "all", label: "All" },
@@ -27,76 +25,18 @@ const INITIAL_BATCH = 10;
 const LOAD_BATCH = 10;
 const LOAD_DELAY_MS = 1000;
 
-function formatInr(price: number) {
-  return new Intl.NumberFormat("en-IN", {
-    style: "currency",
-    currency: "INR",
-    maximumFractionDigits: 0,
-  }).format(Math.round(price * 15));
-}
-
-function ProductCard({
-  product,
-  index,
-  isWishlisted,
-  onToggleWishlist,
-}: {
-  product: CatalogProduct;
-  index: number;
-  isWishlisted: boolean;
-  onToggleWishlist: (id: number) => void;
-}) {
+function ColorSwatches({ index }: { index: number }) {
   const swatches = swatchSets[index % swatchSets.length];
-
   return (
-    <article className="group">
-      <Link href={`/product/${product.id}`} className="block">
-        <div className="relative aspect-[3/4] bg-[#f5f5f5] overflow-hidden mb-2.5 sm:mb-3">
-          <Image
-            src={product.image}
-            alt={product.name}
-            fill
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-          />
-          <button
-            type="button"
-            aria-label="Wishlist"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onToggleWishlist(product.id);
-            }}
-            className="absolute top-2.5 right-2.5 w-8 h-8 flex items-center justify-center z-10"
-          >
-            <Heart
-              className={cn(
-                "w-4 h-4 transition-colors",
-                isWishlisted ? "fill-[#111] text-[#111]" : "text-[#111]/70"
-              )}
-              strokeWidth={1.5}
-            />
-          </button>
-        </div>
-
-        <h3 className="text-[11px] sm:text-xs text-[#111] leading-snug line-clamp-2 mb-1">
-          {product.name}
-        </h3>
-        <p className="text-xs sm:text-sm font-semibold text-[#111] mb-2">
-          {formatInr(product.price)}
-        </p>
-      </Link>
-
-      <div className="flex items-center gap-1.5">
-        {swatches.map((color) => (
-          <span
-            key={color}
-            className="w-3 h-3 rounded-full border border-black/10 shrink-0"
-            style={{ backgroundColor: color }}
-          />
-        ))}
-      </div>
-    </article>
+    <div className="flex items-center gap-1.5 mt-2">
+      {swatches.map((color) => (
+        <span
+          key={color}
+          className="w-3 h-3 rounded-full border border-black/10 shrink-0"
+          style={{ backgroundColor: color }}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -106,7 +46,6 @@ export function NewAndPopular() {
   const [loading, setLoading] = useState(false);
   const sentinelRef = useRef<HTMLDivElement>(null);
   const loadingRef = useRef(false);
-  const { wishlist, toggleWishlist } = useUI();
 
   const filteredProducts = useMemo(() => {
     if (activeFilter === "all") return allProducts;
@@ -156,14 +95,14 @@ export function NewAndPopular() {
         New and Popular
       </h2>
 
-      <div className="flex flex-wrap justify-center gap-2 sm:gap-2.5 mb-6 sm:mb-8 max-w-4xl mx-auto">
+      <div className="flex overflow-x-auto scrollbar-hide gap-2 mb-6 sm:mb-8 max-w-4xl mx-auto -mx-1 px-1 sm:flex-wrap sm:justify-center sm:overflow-visible">
         {filters.map((filter) => (
           <button
             key={filter.id}
             type="button"
             onClick={() => setActiveFilter(filter.id)}
             className={cn(
-              "px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide border transition-colors",
+              "shrink-0 px-3.5 sm:px-4 py-2 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide border transition-colors min-h-[40px]",
               activeFilter === filter.id
                 ? "bg-[#111] text-white border-[#111]"
                 : "bg-white text-[#111] border-[#111]/25 hover:border-[#111]/50"
@@ -174,15 +113,12 @@ export function NewAndPopular() {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8 max-w-[1920px] mx-auto">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-2.5 gap-y-5 sm:gap-x-4 sm:gap-y-8 max-w-[1920px] mx-auto">
         {visibleProducts.map((product, index) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            index={index}
-            isWishlisted={wishlist.includes(product.id)}
-            onToggleWishlist={toggleWishlist}
-          />
+          <div key={product.id}>
+            <ProductCardFromCatalog product={product} index={index} compact />
+            <ColorSwatches index={index} />
+          </div>
         ))}
       </div>
 

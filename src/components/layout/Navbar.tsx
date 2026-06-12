@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, Menu, X, Heart } from "lucide-react";
+import { User, Menu, X, Heart, Package, Search } from "lucide-react";
 import { navLinks } from "@/lib/data";
 import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { SearchButton, DesktopSearchBar } from "@/components/layout/SearchOverlay";
 import { CartButton } from "@/components/layout/CartDrawer";
+import { useUI } from "@/context/UIContext";
 
 function Logo({ className, showText = true }: { className?: string; showText?: boolean }) {
   return (
@@ -66,6 +67,7 @@ function NavItem({ href, label }: { href: string; label: string }) {
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { openSearch } = useUI();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -147,13 +149,43 @@ export function Navbar() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block py-3 text-sm font-bold uppercase tracking-[0.08em] text-[#111111] hover:text-[#555555] min-h-[44px] flex items-center"
+                    className="block py-3.5 text-sm font-bold uppercase tracking-[0.08em] text-[#111111] hover:text-[#555555] min-h-[48px] flex items-center border-b border-[#f0f0f0]"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
+
+            <div className="mt-6 pt-6 border-t border-[#eeeeee] space-y-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  openSearch();
+                }}
+                className="w-full flex items-center gap-3 py-3.5 text-sm font-semibold text-[#111111] min-h-[48px]"
+              >
+                <Search className="w-5 h-5" strokeWidth={1.75} />
+                Search Products
+              </button>
+              <Link
+                href="/account"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 py-3.5 text-sm font-semibold text-[#111111] min-h-[48px]"
+              >
+                <User className="w-5 h-5" strokeWidth={1.75} />
+                My Account
+              </Link>
+              <Link
+                href="/track-order"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 py-3.5 text-sm font-semibold text-[#111111] min-h-[48px]"
+              >
+                <Package className="w-5 h-5" strokeWidth={1.75} />
+                Track Order
+              </Link>
+            </div>
           </div>
         </div>
       )}

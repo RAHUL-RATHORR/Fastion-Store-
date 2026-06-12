@@ -9,8 +9,7 @@ import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
-const inputClass =
-  "w-full bg-[#111111] border border-[rgba(192,192,192,0.12)] px-4 py-3 text-sm text-white placeholder:text-[#71717a] focus:outline-none focus:border-[#c0c0c0] transition-colors";
+const inputClass = "form-input";
 
 type LoginMethod = "email" | "phone";
 type Step = "input" | "otp";
@@ -36,7 +35,7 @@ export function LoginPage() {
   }, [isReady, user, router]);
 
   if (!isReady || user) {
-    return <div className="min-h-screen-safe bg-[#050505]" />;
+    return <div className="min-h-screen-safe bg-white" />;
   }
 
   const sendOtp = async () => {
@@ -107,38 +106,38 @@ export function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen-safe bg-[#050505] pb-16">
+    <div className="min-h-screen-safe bg-white pb-16">
       <Container className="pt-[calc(5rem+env(safe-area-inset-top))] max-w-md">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-[#a1a1aa] hover:text-white text-xs uppercase tracking-[0.15em] mb-8 transition-colors"
+          className="inline-flex items-center gap-2 text-[#666666] hover:text-[#111111] text-xs uppercase tracking-[0.15em] mb-8 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
 
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-full bg-[#111111] border border-[rgba(192,192,192,0.12)] flex items-center justify-center mx-auto mb-4">
-            <Lock className="w-6 h-6 text-[#c0c0c0]" strokeWidth={1.5} />
+          <div className="w-14 h-14 rounded-full bg-[#f4f4f4] border border-[#e5e5e5] flex items-center justify-center mx-auto mb-4">
+            <Lock className="w-6 h-6 text-[#666666]" strokeWidth={1.5} />
           </div>
-          <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-white mb-2">
+          <h1 className="font-[family-name:var(--font-playfair)] text-2xl sm:text-3xl text-[#111111] mb-2">
             Sign In
           </h1>
-          <p className="text-[#a1a1aa] text-sm">
+          <p className="text-[#666666] text-sm">
             {method === "email"
               ? "We will send a one-time password to your email"
               : "Phone OTP login — coming soon"}
           </p>
         </div>
 
-        <div className="flex border border-[rgba(192,192,192,0.12)] mb-6">
+        <div className="flex border border-[#e5e5e5] mb-6">
           <button
             onClick={() => switchMethod("email")}
             className={cn(
               "flex-1 flex items-center justify-center gap-2 py-3 text-[10px] uppercase tracking-[0.15em] transition-colors",
               method === "email"
-                ? "bg-[#111111] text-white border-b-2 border-[#e5e5e5]"
-                : "text-[#71717a] hover:text-[#a1a1aa]"
+                ? "bg-[#f5f5f5] text-[#111111] border-b-2 border-[#111111]"
+                : "text-[#888888] hover:text-[#111111]"
             )}
           >
             <Mail className="w-4 h-4" />
@@ -149,23 +148,23 @@ export function LoginPage() {
             className={cn(
               "flex-1 flex items-center justify-center gap-2 py-3 text-[10px] uppercase tracking-[0.15em] transition-colors relative",
               method === "phone"
-                ? "bg-[#111111] text-white border-b-2 border-[#e5e5e5]"
-                : "text-[#71717a] hover:text-[#a1a1aa]"
+                ? "bg-[#f5f5f5] text-[#111111] border-b-2 border-[#111111]"
+                : "text-[#888888] hover:text-[#111111]"
             )}
           >
             <Phone className="w-4 h-4" />
             Phone OTP
-            <span className="absolute top-1 right-2 text-[7px] bg-[#1a1a1a] text-[#71717a] px-1.5 py-0.5 rounded">
+            <span className="absolute top-1 right-2 text-[7px] bg-[#f0f0f0] text-[#888888] px-1.5 py-0.5 rounded">
               Soon
             </span>
           </button>
         </div>
 
-        <div className="bg-[#0d0d0d] border border-[rgba(192,192,192,0.1)] p-6 sm:p-8 space-y-5">
+        <div className="bg-white border border-[#e5e5e5] p-6 sm:p-8 space-y-5 shadow-[0_1px_3px_rgba(0,0,0,0.06)]">
           {method === "phone" ? (
             <>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-2">
+                <label className="form-label">
                   Mobile Number
                 </label>
                 <input
@@ -177,7 +176,7 @@ export function LoginPage() {
                   disabled
                 />
               </div>
-              <p className="text-[#71717a] text-xs text-center">
+              <p className="text-[#888888] text-xs text-center">
                 Phone OTP login will be enabled soon. Please use Email OTP for now.
               </p>
               <Button
@@ -191,7 +190,7 @@ export function LoginPage() {
           ) : step === "input" ? (
             <>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-2">
+                <label className="form-label">
                   Email Address
                 </label>
                 <input
@@ -204,8 +203,8 @@ export function LoginPage() {
                 />
               </div>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-2">
-                  Name <span className="text-[#71717a]">(optional)</span>
+                <label className="form-label">
+                  Name <span className="text-[#888888]">(optional)</span>
                 </label>
                 <input
                   type="text"
@@ -226,11 +225,11 @@ export function LoginPage() {
             </>
           ) : (
             <>
-              <p className="text-[#a1a1aa] text-sm text-center">
-                OTP sent to <span className="text-white">{email}</span>
+              <p className="text-[#666666] text-sm text-center">
+                OTP sent to <span className="text-[#111111]">{email}</span>
               </p>
               <div>
-                <label className="block text-[10px] uppercase tracking-[0.18em] text-[#a1a1aa] mb-2">
+                <label className="form-label">
                   Enter 6-Digit OTP
                 </label>
                 <input
@@ -257,14 +256,14 @@ export function LoginPage() {
                   setOtp("");
                   setError("");
                 }}
-                className="w-full text-[10px] uppercase tracking-[0.15em] text-[#a1a1aa] hover:text-white transition-colors"
+                className="w-full text-[10px] uppercase tracking-[0.15em] text-[#666666] hover:text-[#111111] transition-colors"
               >
                 Change email
               </button>
               <button
                 onClick={sendOtp}
                 disabled={loading}
-                className="w-full text-[10px] uppercase tracking-[0.15em] text-[#c0c0c0] hover:text-white transition-colors"
+                className="w-full text-[10px] uppercase tracking-[0.15em] text-[#888888] hover:text-[#111111] transition-colors"
               >
                 Resend OTP
               </button>
@@ -279,7 +278,7 @@ export function LoginPage() {
           )}
         </div>
 
-        <div className="mt-6 flex items-start gap-3 text-[#71717a] text-xs">
+        <div className="mt-6 flex items-start gap-3 text-[#888888] text-xs">
           <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5" />
           <p>
             Your OTP is valid for 10 minutes. We never share your email with third parties.

@@ -114,17 +114,46 @@ body {
 }
 
 .glass {
-  background: rgba(13, 13, 13, 0.6);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(192, 192, 192, 0.08);
+  border: 1px solid #e5e5e5;
 }
 
 .glass-strong {
-  background: rgba(5, 5, 5, 0.85);
+  background: rgba(255, 255, 255, 0.98);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(192, 192, 192, 0.06);
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.form-input {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #111111;
+  transition: border-color 0.2s ease;
+}
+
+.form-input::placeholder {
+  color: #999999;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #111111;
+}
+
+.form-label {
+  display: block;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #888888;
+  margin-bottom: 0.5rem;
 }
 
 .silver-glow {
