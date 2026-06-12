@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Check,
@@ -26,6 +25,7 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { ProductCard } from "@/components/ui/ProductCard";
+import { useCheckoutGate } from "@/hooks/useCheckoutGate";
 
 type ProductDetailPageProps = {
   product: ProductDetail;
@@ -49,8 +49,8 @@ function StarRating({ rating, size = "sm" }: { rating: number; size?: "sm" | "md
 }
 
 export function ProductDetailPage({ product }: ProductDetailPageProps) {
-  const router = useRouter();
-  const { addToCart } = useCart();
+  const { addToCart, updateQuantity, getQuantity } = useCart();
+  const { goToCheckout } = useCheckoutGate();
   const { wishlist, toggleWishlist, openSizeGuide } = useUI();
 
   const [activeImage, setActiveImage] = useState(0);
@@ -64,14 +64,17 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
   const related = getRelatedProducts(product.id);
   const isWishlisted = wishlist.includes(product.id);
   const savings = product.mrp - product.price;
+  const cartQty = getQuantity(product.id, selectedSize);
 
   const handleAddToCart = () => {
     addToCart(product.id, selectedSize, quantity);
   };
 
   const handleBuyNow = () => {
-    handleAddToCart();
-    router.push("/checkout");
+    if (cartQty === 0) {
+      addToCart(product.id, selectedSize, quantity);
+    }
+    goToCheckout();
   };
 
   const checkDelivery = () => {
@@ -271,7 +274,7 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
 
             <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-8">
               {[
-                { icon: Truck, label: "Free Delivery", sub: "Orders above $300" },
+                { icon: Truck, label: "Free Delivery", sub: "Orders above ₹999" },
                 { icon: Shield, label: "7-Day Returns", sub: "Easy exchange" },
                 { icon: Zap, label: "Genuine Product", sub: "100% authentic" },
               ].map(({ icon: Icon, label, sub }) => (
@@ -298,12 +301,39 @@ export function ProductDetailPage({ product }: ProductDetailPageProps) {
                     isWishlisted ? "fill-[#e53935] text-[#e53935]" : ""
                   )}
                 />
-                Wishlist
+                {isWishlisted ? "Saved" : "Wishlist"}
               </Button>
-              <Button variant="secondary" className="flex-1 border-[#e5e5e5] text-[#111111]" onClick={handleAddToCart}>
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                Add to Cart
-              </Button>
+              {cartQty > 0 ? (
+                <div className="flex-1 inline-flex items-center justify-center border border-[#e5e5e5] min-h-[44px] bg-[#fafafa]">
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(product.id, selectedSize, cartQty - 1)}
+                    aria-label="Decrease quantity"
+                    className="w-10 h-10 flex items-center justify-center text-[#666666] hover:text-[#111111]"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="w-10 text-center text-sm text-[#111111] font-semibold">{cartQty}</span>
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(product.id, selectedSize, cartQty + 1)}
+                    disabled={cartQty >= 10}
+                    aria-label="Increase quantity"
+                    className="w-10 h-10 flex items-center justify-center text-[#666666] hover:text-[#111111] disabled:opacity-40"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <Button
+                  variant="secondary"
+                  className="flex-1 border-[#e5e5e5] text-[#111111]"
+                  onClick={handleAddToCart}
+                >
+                  <ShoppingBag className="w-4 h-4 mr-2" />
+                  Add to Cart
+                </Button>
+              )}
               <Button variant="primary" className="flex-1 sm:flex-[1.2] bg-[#111111] text-white hover:bg-[#333333]" onClick={handleBuyNow}>
                 Buy Now
               </Button>

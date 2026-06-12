@@ -5,8 +5,8 @@ import { Home, Grid3X3, ShoppingBag, User } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
 const links = [
-  { href: "#home", icon: Home, label: "Home" },
-  { href: "#collection", icon: Grid3X3, label: "Shop" },
+  { href: "/", icon: Home, label: "Home" },
+  { href: "/#collection", icon: Grid3X3, label: "Shop" },
   { href: "#cart", icon: ShoppingBag, label: "Bag", isCart: true },
   { href: "/account", icon: User, label: "Account" },
 ];

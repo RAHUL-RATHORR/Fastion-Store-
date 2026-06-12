@@ -46,7 +46,7 @@ export function ProductCard({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative aspect-[3/4] bg-[#f4f4f4] overflow-hidden mb-2.5 sm:mb-3">
-        <Link href={`/product/${id}`} className="absolute inset-0 block">
+        <Link href={`/product/${id}`} className="absolute inset-0 block z-[1]">
           <Image
             src={image}
             alt={name}
@@ -91,7 +91,7 @@ export function ProductCard({
             toggleWishlist(id);
           }}
           aria-label="Wishlist"
-          className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white/95 shadow-sm flex items-center justify-center z-10 active:scale-95 transition-transform"
+          className="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 w-10 h-10 sm:w-9 sm:h-9 rounded-full bg-white/95 shadow-sm flex items-center justify-center z-[3] active:scale-95 transition-transform"
         >
           <Heart
             className={cn(

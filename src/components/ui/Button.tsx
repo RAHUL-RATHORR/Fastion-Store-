@@ -46,7 +46,7 @@ export function Button({
   }
 
   return (
-    <motion.button className={classes} {...motionProps} {...props}>
+    <motion.button type="button" className={classes} {...motionProps} {...props}>
       {children}
     </motion.button>
   );

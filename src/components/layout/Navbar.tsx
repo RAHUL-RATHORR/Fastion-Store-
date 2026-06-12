@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { SearchButton, DesktopSearchBar } from "@/components/layout/SearchOverlay";
 import { CartButton } from "@/components/layout/CartDrawer";
+import { WishlistButton } from "@/components/layout/WishlistDrawer";
 import { useUI } from "@/context/UIContext";
 
 function Logo({ className, showText = true }: { className?: string; showText?: boolean }) {
@@ -67,7 +68,7 @@ function NavItem({ href, label }: { href: string; label: string }) {
 
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { openSearch } = useUI();
+  const { openSearch, openWishlist } = useUI();
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -106,9 +107,7 @@ export function Navbar() {
               <Link href="/account" aria-label="Account" className={cn(iconClass, "hidden sm:flex")}>
                 <User className="w-[22px] h-[22px]" strokeWidth={1.75} />
               </Link>
-              <Link href="/account" aria-label="Wishlist" className={cn(iconClass, "hidden lg:flex")}>
-                <Heart className="w-[22px] h-[22px]" strokeWidth={1.75} />
-              </Link>
+              <WishlistButton className={cn(iconClass, "hidden sm:flex")} />
               <CartButton className={iconClass} />
               <button
                 aria-label="Menu"
@@ -185,6 +184,17 @@ export function Navbar() {
                 <Package className="w-5 h-5" strokeWidth={1.75} />
                 Track Order
               </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  openWishlist();
+                }}
+                className="w-full flex items-center gap-3 py-3.5 text-sm font-semibold text-[#111111] min-h-[48px]"
+              >
+                <Heart className="w-5 h-5" strokeWidth={1.75} />
+                Wishlist
+              </button>
             </div>
           </div>
         </div>

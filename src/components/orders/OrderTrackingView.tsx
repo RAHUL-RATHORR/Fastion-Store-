@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Circle, MapPin, Package, Truck } from "lucide-react";
 import { getOrderTracking, type PlacedOrder } from "@/lib/order";
-import { cn, formatPrice } from "@/lib/utils";
+import { cn, formatRupee, toInr } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
@@ -181,7 +181,7 @@ export function OrderTrackingView({ order, showBackLink = true }: OrderTrackingV
                         Size {item.size} · Qty {item.quantity}
                       </p>
                       <p className="text-sm text-[#333333] mt-1">
-                        {formatPrice(item.price * item.quantity)}
+                        {formatRupee(toInr(item.price) * item.quantity)}
                       </p>
                     </div>
                   </li>
@@ -225,7 +225,7 @@ export function OrderTrackingView({ order, showBackLink = true }: OrderTrackingV
                   <p className="text-[10px] uppercase tracking-[0.18em] text-[#888888] mb-1">
                     Order Total
                   </p>
-                  <p className="text-sm text-[#111111] font-medium">{formatPrice(order.total)}</p>
+                  <p className="text-sm text-[#111111] font-medium">{formatRupee(order.total)}</p>
                   <p className="text-xs text-[#888888] mt-1">{order.paymentLabel}</p>
                 </div>
               </div>

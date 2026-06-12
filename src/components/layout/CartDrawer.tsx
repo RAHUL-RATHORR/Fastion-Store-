@@ -2,16 +2,17 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ShoppingBag } from "lucide-react";
+import { Minus, Plus, X, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { formatPrice } from "@/lib/utils";
+import { useCheckoutGate } from "@/hooks/useCheckoutGate";
+import { formatPrice, formatRupee, toInr } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 export function CartDrawer() {
-  const { items, isOpen, closeCart, removeFromCart, totalItems } = useCart();
-  const total = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const { items, isOpen, closeCart, updateQuantity, totalItems } = useCart();
+  const { goToCheckout } = useCheckoutGate();
+  const totalInr = items.reduce((sum, i) => sum + toInr(i.price) * i.quantity, 0);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -67,10 +68,32 @@ export function CartDrawer() {
                       <h3 className="text-sm text-[#111111] truncate">{item.name}</h3>
                       <p className="text-xs text-[#666666] mt-1">Size: {item.size}</p>
                       <p className="text-sm text-[#333333] mt-1">{formatPrice(item.price)}</p>
-                      <div className="flex items-center justify-between mt-2">
-                        <span className="text-xs text-[#666666]">Qty: {item.quantity}</span>
+                      <div className="flex items-center justify-between mt-3">
+                        <div className="inline-flex items-center border border-[#e5e5e5]">
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.id, item.size, item.quantity - 1)}
+                            aria-label="Decrease quantity"
+                            className="w-8 h-8 flex items-center justify-center text-[#666666] hover:text-[#111111] transition-colors"
+                          >
+                            <Minus className="w-3.5 h-3.5" />
+                          </button>
+                          <span className="w-8 text-center text-xs text-[#111111] font-medium">
+                            {item.quantity}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => updateQuantity(item.id, item.size, item.quantity + 1)}
+                            disabled={item.quantity >= 10}
+                            aria-label="Increase quantity"
+                            className="w-8 h-8 flex items-center justify-center text-[#666666] hover:text-[#111111] transition-colors disabled:opacity-40"
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
                         <button
-                          onClick={() => removeFromCart(item.id, item.size)}
+                          type="button"
+                          onClick={() => updateQuantity(item.id, item.size, 0)}
                           className="text-[10px] uppercase tracking-wider text-[#888888] hover:text-[#111111]"
                         >
                           Remove
@@ -86,15 +109,18 @@ export function CartDrawer() {
               <div className="p-6 border-t border-[#e5e5e5] space-y-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-[#666666]">Subtotal</span>
-                  <span className="text-[#111111] font-medium">{formatPrice(total)}</span>
+                  <span className="text-[#111111] font-medium">{formatRupee(totalInr)}</span>
                 </div>
-                <Link
-                  href="/checkout"
-                  onClick={closeCart}
+                <button
+                  type="button"
+                  onClick={() => {
+                    closeCart();
+                    goToCheckout();
+                  }}
                   className="inline-flex items-center justify-center w-full min-h-[44px] px-6 py-3 text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all duration-300 bg-[#111111] text-white hover:bg-[#333333]"
                 >
                   Checkout
-                </Link>
+                </button>
               </div>
             )}
           </motion.aside>

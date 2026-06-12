@@ -13,12 +13,14 @@ export type User = {
   email: string;
   name?: string;
   phone?: string;
+  avatar?: string;
 };
 
 type AuthContextType = {
   user: User | null;
   isReady: boolean;
   login: (user: User) => void;
+  updateUser: (patch: Partial<User>) => void;
   logout: () => void;
 };
 
@@ -40,10 +42,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsReady(true);
   }, []);
 
-  const login = useCallback((next: User) => {
+  const persistUser = useCallback((next: User) => {
     setUser(next);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   }, []);
+
+  const login = useCallback((next: User) => {
+    persistUser(next);
+  }, [persistUser]);
+
+  const updateUser = useCallback(
+    (patch: Partial<User>) => {
+      setUser((prev) => {
+        if (!prev) return prev;
+        const next = { ...prev, ...patch };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
+    },
+    []
+  );
 
   const logout = useCallback(() => {
     setUser(null);
@@ -51,7 +69,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isReady, login, logout }}>
+    <AuthContext.Provider value={{ user, isReady, login, updateUser, logout }}>
       {children}
     </AuthContext.Provider>
   );

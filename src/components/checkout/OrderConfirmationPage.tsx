@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { CheckCircle2, MapPin, Package, Truck } from "lucide-react";
 import { getPlacedOrder, type PlacedOrder } from "@/lib/order";
-import { formatPrice } from "@/lib/utils";
+import { formatRupee, toInr } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
@@ -72,7 +72,7 @@ export function OrderConfirmationPage() {
             </span>
             <span className="hidden sm:block text-[#cccccc]">|</span>
             <span className="text-[#666666]">
-              Total: <span className="text-[#111111] font-medium">{formatPrice(order.total)}</span>
+              Total: <span className="text-[#111111] font-medium">{formatRupee(order.total)}</span>
             </span>
           </div>
         </Container>
@@ -140,7 +140,7 @@ export function OrderConfirmationPage() {
                         Size {item.size} · Qty {item.quantity}
                       </p>
                       <p className="text-sm text-[#333333] mt-2">
-                        {formatPrice(item.price * item.quantity)}
+                        {formatRupee(toInr(item.price) * item.quantity)}
                       </p>
                       <p className="text-[10px] uppercase tracking-wider text-[#6ee7b7] mt-2">
                         Delivery by {order.deliveryDate.split(",").slice(1).join(",").trim()}
@@ -160,19 +160,19 @@ export function OrderConfirmationPage() {
               <div className="space-y-2.5 text-sm">
                 <div className="flex justify-between text-[#666666]">
                   <span>Subtotal</span>
-                  <span>{formatPrice(order.subtotal)}</span>
+                  <span>{formatRupee(order.subtotal)}</span>
                 </div>
                 <div className="flex justify-between text-[#666666]">
                   <span>Shipping</span>
-                  <span>{order.shipping === 0 ? "Free" : formatPrice(order.shipping)}</span>
+                  <span>{order.shipping === 0 ? "Free" : formatRupee(order.shipping)}</span>
                 </div>
                 <div className="flex justify-between text-[#666666]">
                   <span>Tax</span>
-                  <span>{formatPrice(order.tax)}</span>
+                  <span>{formatRupee(order.tax)}</span>
                 </div>
                 <div className="flex justify-between text-[#111111] font-medium pt-3 border-t border-[#e5e5e5]">
                   <span>Total Paid</span>
-                  <span>{formatPrice(order.total)}</span>
+                  <span>{formatRupee(order.total)}</span>
                 </div>
               </div>
               <div className="pt-2">

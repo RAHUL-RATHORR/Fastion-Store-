@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Lock, ShoppingBag } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
+import { useUI } from "@/context/UIContext";
 import { useCart } from "@/context/CartContext";
 import { generateOrderId, getDeliveryDate, savePlacedOrder } from "@/lib/order";
-import { cn, formatPrice } from "@/lib/utils";
+import { cn, formatRupee, toInr } from "@/lib/utils";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 
@@ -48,16 +49,23 @@ const paymentLabels: Record<PaymentMethod, string> = {
 
 export function CheckoutPage() {
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, isReady } = useAuth();
+  const { openCheckoutAuth, checkoutAuthOpen } = useUI();
   const { items, clearCart } = useCart();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isReady && !user) {
+      openCheckoutAuth("/checkout");
+    }
+  }, [isReady, user, openCheckoutAuth]);
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("upi");
   const [selectedUpiApp, setSelectedUpiApp] = useState<string>(upiApps[0]);
 
-  const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-  const shipping = subtotal > 0 ? (subtotal >= 300 ? 0 : 15) : 0;
-  const tax = Math.round(subtotal * 0.08);
-  const total = subtotal + shipping + tax;
+  const subtotalInr = items.reduce((sum, i) => sum + toInr(i.price) * i.quantity, 0);
+  const shippingInr = subtotalInr > 0 ? (subtotalInr >= 999 ? 0 : 99) : 0;
+  const taxInr = Math.round(subtotalInr * 0.08);
+  const totalInr = subtotalInr + shippingInr + taxInr;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -80,10 +88,10 @@ export function CheckoutPage() {
       orderId: generateOrderId(),
       placedAt: new Date().toISOString(),
       items: [...items],
-      subtotal,
-      shipping,
-      tax,
-      total,
+      subtotal: subtotalInr,
+      shipping: shippingInr,
+      tax: taxInr,
+      total: totalInr,
       paymentMethod: method,
       paymentLabel,
       customer: {
@@ -101,6 +109,36 @@ export function CheckoutPage() {
     clearCart();
     router.push("/order-confirmation");
   };
+
+  if (!isReady) {
+    return <div className="min-h-screen-safe bg-white" />;
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen-safe bg-white pt-[calc(5rem+env(safe-area-inset-top))] pb-16">
+        <Container className="max-w-lg text-center py-16 sm:py-24">
+          <Lock className="w-12 h-12 text-[#cccccc] mx-auto mb-4" strokeWidth={1} />
+          <h1 className="font-[family-name:var(--font-playfair)] text-2xl text-[#111111] mb-3">
+            Login Required
+          </h1>
+          <p className="text-[#666666] text-sm mb-8">
+            Please sign in to complete your GILZOD order.
+          </p>
+          {!checkoutAuthOpen && (
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Button variant="primary" onClick={() => openCheckoutAuth("/checkout")}>
+                Login to Continue
+              </Button>
+              <Button variant="secondary" href="/#collection">
+                Continue Shopping
+              </Button>
+            </div>
+          )}
+        </Container>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -167,7 +205,7 @@ export function CheckoutPage() {
                           Size {item.size} · Qty {item.quantity}
                         </p>
                         <p className="text-sm text-[#333333] mt-1">
-                          {formatPrice(item.price * item.quantity)}
+                          {formatRupee(toInr(item.price) * item.quantity)}
                         </p>
                       </div>
                     </li>
@@ -177,19 +215,19 @@ export function CheckoutPage() {
                 <div className="border-t border-[#e5e5e5] pt-4 space-y-2.5 text-sm">
                   <div className="flex justify-between text-[#666666]">
                     <span>Subtotal</span>
-                    <span>{formatPrice(subtotal)}</span>
+                    <span>{formatRupee(subtotalInr)}</span>
                   </div>
                   <div className="flex justify-between text-[#666666]">
                     <span>Shipping</span>
-                    <span>{shipping === 0 ? "Free" : formatPrice(shipping)}</span>
+                    <span>{shippingInr === 0 ? "Free" : formatRupee(shippingInr)}</span>
                   </div>
                   <div className="flex justify-between text-[#666666]">
                     <span>Estimated Tax</span>
-                    <span>{formatPrice(tax)}</span>
+                    <span>{formatRupee(taxInr)}</span>
                   </div>
                   <div className="flex justify-between text-[#111111] font-medium pt-2 border-t border-[#e5e5e5]">
                     <span>Total</span>
-                    <span>{formatPrice(total)}</span>
+                    <span>{formatRupee(totalInr)}</span>
                   </div>
                 </div>
 
@@ -462,8 +500,8 @@ export function CheckoutPage() {
                     <div className="p-4 border border-[#e5e5e5] bg-[#fafafa]">
                       <p className="text-sm text-[#111111] mb-1">Pay when your order arrives</p>
                       <p className="text-xs text-[#666666] leading-relaxed">
-                        Cash on Delivery is available for orders under {formatPrice(500)}. A small
-                        handling fee of {formatPrice(49)} may apply.
+                        Cash on Delivery is available for orders under {formatRupee(5000)}. A small
+                        handling fee of {formatRupee(49)} may apply.
                       </p>
                     </div>
                   )}
@@ -482,7 +520,7 @@ export function CheckoutPage() {
         <div className="flex items-center gap-4 max-w-lg mx-auto">
           <div className="shrink-0">
             <p className="text-[10px] uppercase tracking-wider text-[#888888]">Total</p>
-            <p className="text-lg font-bold text-[#111111]">{formatPrice(total)}</p>
+            <p className="text-lg font-bold text-[#111111]">{formatRupee(totalInr)}</p>
           </div>
           <Button
             type="submit"
