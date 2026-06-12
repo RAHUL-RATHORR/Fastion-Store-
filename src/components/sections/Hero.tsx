@@ -42,7 +42,7 @@ export function Hero() {
               <img
                 src={item.image}
                 alt={item.title}
-                className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[175%] max-w-none h-[175%] object-contain object-center"
+                className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[155%] max-w-none h-[155%] object-contain object-center"
               />
             </div>
 
