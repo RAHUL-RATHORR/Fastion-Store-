@@ -48,9 +48,11 @@ function NavItem({ href, label }: { href: string; label: string }) {
   }, [pathname]);
 
   const isActive =
-    href === "#home" || href === "/"
-      ? pathname === "/" && (hash === "" || hash === "#home")
-      : hash === href;
+    href === "/" || href === "#home"
+      ? pathname === "/"
+      : href.startsWith("/#")
+        ? pathname === "/" && hash === href.slice(1)
+        : hash === href;
 
   return (
     <Link

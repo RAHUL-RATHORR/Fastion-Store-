@@ -86,8 +86,8 @@ export const brandStory = {
 } as const;
 
 export const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "Collection", href: "#collection" },
+  { label: "Home", href: "/" },
+  { label: "Collection", href: "/#collection" },
 ] as const;
 
 export const editorialShowcase = {

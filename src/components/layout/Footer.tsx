@@ -17,7 +17,7 @@ export function Footer() {
       <Container className="py-6 sm:py-8 md:py-10">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5 sm:gap-6 md:gap-8">
           <div className="col-span-2 md:col-span-3 lg:col-span-1">
-            <Link href="#home" className="flex items-center gap-2.5 mb-3 min-h-[36px]">
+            <Link href="/" className="flex items-center gap-2.5 mb-3 min-h-[36px]">
               <div className="relative shrink-0 w-9 h-9 sm:w-10 sm:h-10">
                 <Image
                   src="/logo.png?v=3"
