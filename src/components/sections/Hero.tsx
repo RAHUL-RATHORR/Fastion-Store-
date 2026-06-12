@@ -36,13 +36,13 @@ export function Hero() {
               i === active ? "opacity-100 z-0" : "opacity-0 z-0"
             )}
           >
-            {/* Mobile — centered product/model image, no text overlay */}
-            <div className="absolute inset-0 sm:hidden bg-[#f5f5f5]">
+            {/* Mobile — larger centered image, same slider height */}
+            <div className="absolute inset-0 sm:hidden bg-[#f5f5f5] overflow-hidden">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={item.image}
                 alt={item.title}
-                className="absolute inset-0 w-full h-full object-contain object-center px-1 pb-[5.5rem]"
+                className="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 w-[175%] max-w-none h-[175%] object-contain object-center"
               />
             </div>
 
